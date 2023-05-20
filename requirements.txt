@@ -2,3 +2,6 @@ pandas
 matplotlib
 ipdb
 seaborn
+requests
+datetime
+os
