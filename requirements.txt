@@ -2,3 +2,9 @@ pandas
 matplotlib
 ipdb
 seaborn
+scipy==1.10.0
+scikit-learn==1.2.1
+nltk
+textblob
+string
+re
