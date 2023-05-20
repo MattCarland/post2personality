@@ -1,2 +1,5 @@
-.env
 *.csv
+.env
+.envrc
+.DS_Store
+.python-version
