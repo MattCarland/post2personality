@@ -1,0 +1,5 @@
+pandas
+matplotlib
+ipdb
+seaborn
+data

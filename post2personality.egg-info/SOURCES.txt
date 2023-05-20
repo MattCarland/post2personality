@@ -1,0 +1,10 @@
+README.md
+setup.py
+data/__init__.py
+data/data.py
+post2personality.egg-info/PKG-INFO
+post2personality.egg-info/SOURCES.txt
+post2personality.egg-info/dependency_links.txt
+post2personality.egg-info/not-zip-safe
+post2personality.egg-info/requires.txt
+post2personality.egg-info/top_level.txt

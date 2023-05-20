@@ -11,10 +11,6 @@ nltk.download('punkt')
 nltk.download('wordnet')
 nltk.download('omw-1.4')
 
-
-
-
-
 #### Remove URLs
 def remove_urls(data):
     data = re.sub(r'http\S+|www.\S+', '', data)
