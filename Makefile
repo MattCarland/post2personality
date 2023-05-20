@@ -9,5 +9,4 @@ clean:
 	@rm -Rf */__pycache__
 	@rm -Rf */*.pyc
 
-
 all: install clean
