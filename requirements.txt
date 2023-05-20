@@ -8,3 +8,6 @@ nltk
 textblob
 string
 re
+requests
+datetime
+os
