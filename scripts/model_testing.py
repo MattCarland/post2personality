@@ -27,8 +27,8 @@ combined_df = pd.concat([df2, df3], axis=0)
 print(preprocessing(combined_df))
 
 #instantiating X and y
-X = combined_df['clean_text']
-y = combined_df['type']
+X = combined_df['text'].iloc[:1000]
+y = combined_df['type'].iloc[:1000]
 
 #Vectorizing X
 vectorizer = TfidfVectorizer()
