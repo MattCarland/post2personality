@@ -7,13 +7,32 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class RedditUser:
-    """
-    This class is used to get Reddit user data from the Reddit API
-    You need to provide a client_id, secret_key, and your Reddit username as login_user
-    Client_id and secret_key can be obtained by creating a Reddit app at
-    https://www.reddit.com/prefs/apps and can be stored in a .env file
+    """ A class to get the data from a Reddit user
+
+    Attributes:
+        client_id (str): The client_id of the Reddit app
+        secret_key (str): The secret_key of the Reddit app
+        login_user (str): Your Reddit username
+
+        Client_id and secret_key can be obtained by creating a Reddit app at
+        https://www.reddit.com/prefs/apps and can be stored in a .env file
+
+
+    Methods:
+        get_comments(self, target_username)
+            Returns a string of the first 1000 words from a Reddit user's comments
+        get_user_infos(self, target_username)
+            Returns a dict of a Reddit user's username, account creation date, and karma
+
     """
     def __init__(self, client_id, secret_key, login_user):
+        """ Initialize an instance of RedditUser
+
+        Arguments:
+            client_id (str): The client_id of the Reddit app
+            secret_key (str): The secret_key of the Reddit app
+            login_user (str): Your Reddit username
+        """
         self.client_id = client_id
         self.secret_key = secret_key
         self.login_user = login_user
@@ -35,8 +54,10 @@ class RedditUser:
         self.headers['Authorization'] = f'bearer {self.token}'
 
     def get_comments(self, target_username):
-        """
-        This function returns a string of the first 1000 words from a Reddit user's comments
+        """ Return a string of the first 1000 words from a Reddit user's comments
+
+        Arguments:
+            target_username (str): The username of the Reddit user
         """
         comments = requests.get(f'https://oauth.reddit.com/user/{target_username}/comments',
                     headers = self.headers).json()['data']['children']
@@ -51,6 +72,9 @@ class RedditUser:
     def get_user_infos(self, target_username):
         """
         This function returns a dict of a Reddit user's username, account creation date, and karma
+
+        Arguments:
+            target_username (str): The username of the Reddit user
         """
         username = requests.get(f'https://oauth.reddit.com/user/{target_username}/about',
                     headers = self.headers).json()['data']['name']
