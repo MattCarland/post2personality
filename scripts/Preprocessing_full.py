@@ -39,15 +39,15 @@ from sklearn.feature_extraction.text import CountVectorizer # <-- I went with a 
 ### Use ALL data:
 if DATASET_NUMBER == 0:
 
-    data_1 = pd.read_csv('data/Types_500.csv')
+    data_1 = pd.read_csv('data/csv/MBTI 500.csv')
     data_1 = data_1[['type', 'posts']]
     data_1.rename(columns={'posts': 'text'}, inplace=True)
 
-    data_2 = pd.read_csv('data/twitter_MBTI.csv')
+    data_2 = pd.read_csv('data/csv/twitter_MBTI.csv')
     data_2 = data_2[['label', 'text']]
     data_2.rename(columns={'label': 'type'}, inplace=True)
 
-    data_3 = pd.read_csv('data/PersonalityCafe.csv')
+    data_3 = pd.read_csv('data/csv/mbti_1.csv')
     data_3.rename(columns={'posts': 'text'}, inplace=True)
 
     dataframes = [data_1, data_2, data_3]
@@ -55,19 +55,19 @@ if DATASET_NUMBER == 0:
 
 # 1) Types-500 dataset (already preprocessed):
 if DATASET_NUMBER == 1:
-    data = pd.read_csv('data/Types_500.csv')
+    data = pd.read_csv('data/csv/MBTI 500.csv')
     data = data[['type', 'posts']]
     data.rename(columns={'posts': 'text'}, inplace=True)
 
 # 2) Twitter dataset:
 if DATASET_NUMBER == 2:
-    data = pd.read_csv('data/twitter_MBTI.csv')
+    data = pd.read_csv('data/csv/twitter_MBTI.csv')
     data = data[['label', 'text']]
     data.rename(columns={'label': 'type'}, inplace=True)
 
 # 3) PersonalityCafe forums dataset:
 if DATASET_NUMBER == 3:
-    data = pd.read_csv('data/PersonalityCafe.csv')
+    data = pd.read_csv('data/csv/mbti_1.csv')
     data.rename(columns={'posts': 'text'}, inplace=True)
 
 
