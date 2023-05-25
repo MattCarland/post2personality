@@ -1,3 +1,5 @@
+# This class has been created with the help of the following tutorial:
+# How-to Use The Reddit API in Python : https://www.youtube.com/watch?v=FdjVoOf9HN4&t=636s
 
 import requests
 import datetime
@@ -6,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-class RedditUser:
+class RedditApiData:
     """ A class to get the data from a Reddit user
 
     Attributes:
@@ -71,7 +73,7 @@ class RedditUser:
 
     def get_user_infos(self, target_username):
         """
-        This function returns a dict of a Reddit user's username, account creation date, and karma
+        This function returns a dict of a Reddit user's username, account creation date, karma and avatar picture
 
         Arguments:
             target_username (str): The username of the Reddit user
@@ -79,12 +81,14 @@ class RedditUser:
         username = requests.get(f'https://oauth.reddit.com/user/{target_username}/about',
                     headers = self.headers).json()['data']['name']
         member_since = requests.get(f'https://oauth.reddit.com/user/{target_username}/about', headers = self.headers).json()['data']['created_utc']
-        member_since = datetime.datetime.fromtimestamp(member_since).strftime('%Y-%m-%d %H:%M:%S')
+        member_since = datetime.datetime.fromtimestamp(member_since).strftime("%B %d, %Y")
         karma = requests.get(f'https://oauth.reddit.com/user/{target_username}/about', headers = self.headers).json()['data']['total_karma']
+        avatar = requests.get(f'https://oauth.reddit.com/user/{target_username}/about', headers = self.headers).json()['data']['snoovatar_img']
         user_infos = {
             'Username': username,
             'Member since': member_since,
-            'karma': karma
+            'karma': karma,
+            'avatar': avatar
             }
 
         return user_infos
