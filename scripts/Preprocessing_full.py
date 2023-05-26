@@ -337,9 +337,14 @@ def get_avg_sentence_length(dataframe):
 
 ################################################################################
 ################################################################################
-# Main pipeline:
+# Main pipeline for TRAINING (labeled) data:
 
-def full_preprocessing(data):
+def training_preprocessing(data):
+    '''
+    Run this function to clean data for model TRAINING.
+
+    (This code assumes that the target label column ('type') is present.)
+    '''
     data = split_targets(data)
 
     # Text cleaning, etc. (all input/output == STR format)
@@ -366,5 +371,43 @@ def full_preprocessing(data):
     data = vectorize(data)
 
     print(f"final dataset contains {data.shape[0]} rows and {data.shape[1]} columns")
+
+    return data
+
+
+################################################################################
+################################################################################
+# Pipeline for NEW data (for PREDICTIONS):
+
+def prediction_preprocessing(data):
+    '''
+    Use this function to clean USER data, for feeding into the production model
+    in order to generate PREDICTIONS.
+
+    (This code skips over any steps that require the label column ('type') to be
+    present.)
+    '''
+
+    # Text cleaning, etc. (all input/output == STR format)
+    data = lowercasing(data)
+    data = remove_separators(data)
+    data = remove_urls(data)
+    data = remove_handles(data)
+    data = remove_punctuation(data)
+    data = remove_MBTI_types(data)
+    data = remove_repeat_chars(data)
+    data = remove_whitespace(data)
+    data = get_avg_word_length(data)
+    data = letters_only(data)
+
+    # Post-tokenization: all input/output == LIST format):
+    data = tokenize(data)
+    data = remove_stopwords(data)
+    data = lemmatize_data(data)
+    data = get_type_to_token_ratio(data)
+    # data = correct_spelling(data) # Spelling correction step -- WARNING: VERY TIME-CONSUMING, only use for final production models.
+
+    # Final vectorization:
+    data = vectorize(data)
 
     return data
