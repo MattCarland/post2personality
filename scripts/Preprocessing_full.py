@@ -304,6 +304,7 @@ def vectorize(dataframe):
     X = vectorizer.fit_transform(dataframe['text'].apply(' '.join))
     # Re-cast vectorized data into DataFrame format:
     X_df = pd.DataFrame(X.toarray(), columns=vectorizer.get_feature_names_out())
+    X_df.reset_index(inplace=True, drop=True)
     # Append vectorized output onto the input dataframe:
     return pd.concat([dataframe, X_df], axis=1)
 
@@ -414,6 +415,6 @@ def prediction_preprocessing(data):
     # data = correct_spelling(data) # Spelling correction step -- WARNING: VERY TIME-CONSUMING, only use for final production models.
 
     # Final vectorization:
-    data = vectorize(data)
+    data = vectorize(data)      # NOTE TO SELF: FUNCTION USES 'fit_transform' METHOD: WILL HAVE TO CHANGE FOR PREDICTIONS
 
     return data
