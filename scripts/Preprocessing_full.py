@@ -312,6 +312,11 @@ def vectorize(dataframe):
 ################################################################################
 # Feature engineering (in progress; more to come):
 
+def lowercase_targets(dataframe):
+    dataframe['type'] = dataframe['type'].str.lower()
+    return dataframe
+
+
 def split_targets(dataframe):
     dataframe['e_i'] = dataframe['type'].astype(str).str[0]
     dataframe['s_n'] = dataframe['type'].astype(str).str[1]
@@ -345,6 +350,7 @@ def training_preprocessing(data):
 
     (This code assumes that the target label column ('type') is present.)
     '''
+    data = lowercase_targets(data)
     data = split_targets(data)
 
     # Text cleaning, etc. (all input/output == STR format)
