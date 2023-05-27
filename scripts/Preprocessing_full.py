@@ -17,6 +17,7 @@ DATA_LIMIT = 0  # <-- use this parameter to limit the number of rows processed; 
 # Imports:
 import numpy as np
 import pandas as pd
+import pickle
 
 import nltk
 from nltk.corpus import stopwords, words
@@ -297,18 +298,6 @@ def correct_spelling(dataframe):
     return dataframe
 
 
-def vectorize(dataframe):
-    # Instantiate vectorizer:
-    vectorizer = TfidfVectorizer(min_df=MIN_DOC_FREQ, max_df=MAX_DOC_FREQ)
-    # Fit & transform training data:
-    X = vectorizer.fit_transform(dataframe['text'].apply(' '.join))
-    # Re-cast vectorized data into DataFrame format:
-    X_df = pd.DataFrame(X.toarray(), columns=vectorizer.get_feature_names_out())
-    X_df.reset_index(inplace=True, drop=True)
-    # Append vectorized output onto the input dataframe:
-    return pd.concat([dataframe, X_df], axis=1)
-
-
 ################################################################################
 ################################################################################
 # Feature engineering (in progress; more to come):
@@ -343,13 +332,151 @@ def get_avg_sentence_length(dataframe):
 
 ################################################################################
 ################################################################################
+# Vectorizers:
+
+vectorizer = TfidfVectorizer(min_df=MIN_DOC_FREQ, max_df=MAX_DOC_FREQ)
+
+def ei_vectorize(dataframe, is_train=False):
+    '''
+    Takes in a BALANCED dataframe, with an equal number of 'e' and 'i' rows,
+    and vectorizes the (preprocessed and "unpacked") text samples.
+
+    Set 'is_train' to true ONLY if creating training data for a model; for
+    transforming user data for making predictions, set this variable to 'false'
+    (or simply ignore this argument).
+
+    Freshly-fitted vectorizers will be saved locally as .pkl files, which are
+    opened and used to transform user data for prediction.
+    '''
+    if is_train:
+        ei_vectorizer = vectorizer
+        ei_vectorizer.fit(dataframe['text'].apply(' '.join))
+        with open('ei_vectorizer', 'wb') as file:
+            pickle.dump(ei_vectorizer, file)
+        ei_X = ei_vectorizer.transform(dataframe['text'].apply(' '.join))
+    else:
+        with open('ei_vectorizer.pkl', 'rb') as file:
+            ei_vectorizer = pickle.load(file)
+        ei_X = ei_vectorizer.transform(dataframe['text'].apply(' '.join))
+    ei_X = pd.DataFrame(ei_X.toarray(), columns=ei_vectorizer.get_feature_names_out())
+    ei_X.reset_index(inplace=True, drop=True)
+    return pd.concat([dataframe, ei_X], axis=1).drop(columns=['text'])
+
+
+def sn_vectorize(dataframe, is_train=False):
+    '''
+    Takes in a BALANCED dataframe, with an equal number of 's' and 'n' rows,
+    and vectorizes the (preprocessed and "unpacked") text samples.
+
+    Set 'is_train' to true ONLY if creating training data for a model; for
+    transforming user data for making predictions, set this variable to 'false'
+    (or simply ignore this argument).
+
+    Freshly-fitted vectorizers will be saved locally as .pkl files, which are
+    opened and used to transform user data for prediction.
+    '''
+    if is_train:
+        sn_vectorizer = vectorizer
+        sn_vectorizer.fit(dataframe['text'].apply(' '.join))
+        with open('sn_vectorizer', 'wb') as file:
+            pickle.dump(sn_vectorizer, file)
+        sn_X = sn_vectorizer.transform(dataframe['text'].apply(' '.join))
+    else:
+        with open('sn_vectorizer.pkl', 'rb') as file:
+            sn_vectorizer = pickle.load(file)
+        sn_X = sn_vectorizer.transform(dataframe['text'].apply(' '.join))
+    sn_X = pd.DataFrame(sn_X.toarray(), columns=sn_vectorizer.get_feature_names_out())
+    sn_X.reset_index(inplace=True, drop=True)
+    return pd.concat([dataframe, sn_X], axis=1).drop(columns=['text'])
+
+
+def ft_vectorize(dataframe, is_train=False):
+    '''
+    Takes in a BALANCED dataframe, with an equal number of 'f' and 't' rows,
+    and vectorizes the (preprocessed and "unpacked") text samples.
+
+    Set 'is_train' to true ONLY if creating training data for a model; for
+    transforming user data for making predictions, set this variable to 'false'
+    (or simply ignore this argument).
+
+    Freshly-fitted vectorizers will be saved locally as .pkl files, which are
+    opened and used to transform user data for prediction.
+    '''
+    if is_train:
+        ft_vectorizer = vectorizer
+        ft_vectorizer.fit(dataframe['text'].apply(' '.join))
+        with open('ft_vectorizer', 'wb') as file:
+            pickle.dump(ft_vectorizer, file)
+        ft_X = ft_vectorizer.transform(dataframe['text'].apply(' '.join))
+    else:
+        with open('ft_vectorizer.pkl', 'rb') as file:
+            ft_vectorizer = pickle.load(file)
+        ft_X = ft_vectorizer.transform(dataframe['text'].apply(' '.join))
+    ft_X = pd.DataFrame(ft_X.toarray(), columns=ft_vectorizer.get_feature_names_out())
+    ft_X.reset_index(inplace=True, drop=True)
+    return pd.concat([dataframe, ft_X], axis=1).drop(columns=['text'])
+
+
+def pj_vectorize(dataframe, is_train=False):
+    '''
+    Takes in a BALANCED dataframe, with an equal number of 'p' and 'j' rows,
+    and vectorizes the (preprocessed and "unpacked") text samples.
+
+    Set 'is_train' to true ONLY if creating training data for a model; for
+    transforming user data for making predictions, set this variable to 'false'
+    (or simply ignore this argument).
+
+    Freshly-fitted vectorizers will be saved locally as .pkl files, which are
+    opened and used to transform user data for prediction.
+    '''
+    if is_train:
+        pj_vectorizer = vectorizer
+        pj_vectorizer.fit(dataframe['text'].apply(' '.join))
+        with open('pj_vectorizer', 'wb') as file:
+            pickle.dump(pj_vectorizer, file)
+        pj_X = pj_vectorizer.transform(dataframe['text'].apply(' '.join))
+    else:
+        with open('pj_vectorizer.pkl', 'rb') as file:
+            pj_vectorizer = pickle.load(file)
+        pj_X = pj_vectorizer.transform(dataframe['text'].apply(' '.join))
+    pj_X = pd.DataFrame(pj_X.toarray(), columns=pj_vectorizer.get_feature_names_out())
+    pj_X.reset_index(inplace=True, drop=True)
+    return pd.concat([dataframe, pj_X], axis=1).drop(columns=['text'])
+
+
+def generic_vectorizer(dataframe):
+    '''
+    This vectorizer is a hold-over from previous versions of the pipeline, and
+    is used to vectorize the entire dataset as a whole. Should not be used ex-
+    cept to inspect or diagnose issues with the original dataset; otherwise,
+    use the over-sampled and balanced datasets for all other purposes instead.
+    '''
+    # Instantiate vectorizer:
+    generic_vectorizer = vectorizer
+    # Fit & transform training data:
+    X = generic_vectorizer.fit_transform(dataframe['text'].apply(' '.join))
+    # Re-cast vectorized data into DataFrame format:
+    X_df = pd.DataFrame(X.toarray(), columns=generic_vectorizer.get_feature_names_out())
+    X_df.reset_index(inplace=True, drop=True)
+    # Append vectorized output onto the input dataframe:
+    return pd.concat([dataframe, X_df], axis=1)
+
+
+################################################################################
+################################################################################
 # Main pipeline for TRAINING (labeled) data:
 
-def training_preprocessing(data):
+def training_preprocessing(data, vectorize=False):
     '''
     Run this function to clean data for model TRAINING.
 
     (This code assumes that the target label column ('type') is present.)
+
+    If the optional argument 'vectorize' is set to TRUE, then the data will be
+    vectorized as a whole batch. This is not recommended -- using the over-
+    sampled and balanced datasets individually is a more robust approach; use
+    this option only to restore previous versions of the preprocessing
+    pipeline's behavior.
     '''
     data = lowercase_targets(data)
     data = split_targets(data)
@@ -371,15 +498,61 @@ def training_preprocessing(data):
     data = remove_stopwords(data)
     data = lemmatize_data(data)
     data = get_type_to_token_ratio(data)
-    # [[TBD: "Oversampling" method (chopping up samples into multiple 500-word units) will go here]]
+
     # data = correct_spelling(data) # Spelling correction step -- WARNING: VERY TIME-CONSUMING, only use for final production models.
 
-    # Final vectorization:
-    data = vectorize(data)
+    if vectorize == True:
+        data = generic_vectorizer(data)
 
-    print(f"final dataset contains {data.shape[0]} rows and {data.shape[1]} columns")
-
+    print(f"cleaned dataset contains {data.shape[0]} rows and {data.shape[1]} columns")
     return data
+
+
+def training_oversampling(data):
+    #
+    #
+    # Mo's code will go here *******
+    #
+    #
+    print(f"oversampled dataset contains {data.shape[0]} rows and {data.shape[1]} columns")
+    pass
+
+
+def training_balancing(data):
+    '''
+    This function will take in the fully-"unpacked" (i.e. over-sampled) data,
+    and will create FOUR new dataframes in which each class is perfectly bal-
+    anced.
+    '''
+    e_i_data = []
+    s_n_data = []
+    f_t_data = []
+    p_j_data = []
+    return [e_i_data, s_n_data, f_t_data, p_j_data]
+
+
+def training_vectorize(e_i_data, s_n_data, f_t_data, p_j_data):
+    '''
+    Function takes in FOUR separate dataframes -- one for each MBTI factor --
+    and fits a vectorizer to each one independently.
+
+    NOTE: They must be passed in in the correct order:
+    ( E/I --> S/N --> F/T --> P/J )
+
+    Each vectorizer gets saved locally as .pkl files, so that they can be re-
+    used for transforming incoming user data for predictions.
+
+    Returns FOUR vectorized datasets, in the same order.
+    '''
+    e_i_data = ei_vectorize(data, is_train=True)
+    s_n_data = sn_vectorize(data, is_train=True)
+    f_t_data = ft_vectorize(data, is_train=True)
+    p_j_data = pj_vectorize(data, is_train=True)
+    print(f"E-I dataset contains {e_i_data.shape[0]} rows and {e_i_data.shape[1]} columns")
+    print(f"S-N dataset contains {s_n_data.shape[0]} rows and {s_n_data.shape[1]} columns")
+    print(f"F-T dataset contains {f_t_data.shape[0]} rows and {f_t_data.shape[1]} columns")
+    print(f"P-J dataset contains {p_j_data.shape[0]} rows and {p_j_data.shape[1]} columns")
+    return [e_i_data, s_n_data, f_t_data, p_j_data]
 
 
 ################################################################################
@@ -412,9 +585,22 @@ def prediction_preprocessing(data):
     data = remove_stopwords(data)
     data = lemmatize_data(data)
     data = get_type_to_token_ratio(data)
+
     # data = correct_spelling(data) # Spelling correction step -- WARNING: VERY TIME-CONSUMING, only use for final production models.
 
-    # Final vectorization:
-    data = vectorize(data)      # NOTE TO SELF: FUNCTION USES 'fit_transform' METHOD: WILL HAVE TO CHANGE FOR PREDICTIONS
-
     return data
+
+
+def prediction_vectorize(data):
+    '''
+    Uses pre-fitted vectorizers, saved locally as .pkl files, to transform user
+    data in order to feed into models for trait prediction.
+
+    Returns FOUR separate dataframes, to be used for predicting each MBTI
+    factor.
+    '''
+    e_i_data = ei_vectorize(data, is_train=False)
+    s_n_data = sn_vectorize(data, is_train=False)
+    f_t_data = ft_vectorize(data, is_train=False)
+    p_j_data = pj_vectorize(data, is_train=False)
+    return [e_i_data, s_n_data, f_t_data, p_j_data]
