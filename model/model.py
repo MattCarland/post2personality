@@ -1,8 +1,10 @@
 # Libraries
 import pandas as pd
+import numpy as np
 from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import balanced_accuracy_score, classification_report
 from sklearn.model_selection import train_test_split, cross_val_predict
+import pickle
 
 def initialize_model():
     model = SGDClassifier()
@@ -48,12 +50,10 @@ def train_model(data_list,
     for dataset in data_list:
         y = dataset.iloc[:,[0]]
         X = dataset.drop(columns = dataset.columns[0])
-        col = y.columns.to_list()
-        col_1 = col[0]
-        col_2 = col[2]
 
 
-        X_train, X_test, y_train, y_test = train_test_split(X, y,
+
+        X_train, X_test, y_train, y_test = train_test_split(X, y.values.ravel(),
                                                         test_size=.3,
                                                         random_state=random_state)
 
@@ -65,33 +65,35 @@ def train_model(data_list,
 
         MBTI_type = []
 
+        type1 = y.type.value_counts().index.to_list()[0]
+        type2 = y.type.value_counts().index.to_list()[1]
 
         if Prediction == True:
             prediction_dict = PredictDict(model, X_test, y_test)
             print(f"F1-score:{100*round(prediction_dict['macro avg']['f1-score'],5)}")
-            print(f"Model Type: {y.column_names()}")
-            type1 = prediction_dict[col_1]['f1-score']
-            type2 = prediction_dict[col_2]['f1-score']
+            print(f"Model Type: {type1 + type2}")
+
             list_of_histories.append(prediction_dict)
-            if type1 >= type2:
-                MBTI_type.append(type1)
-            else:
-                MBTI_type.append(type2)
+
 
         model_list.append(model)
 
 
-    return model_list, list_of_histories, MBTI_type
+    return model_list, list_of_histories
 # def train_4_types_model(model):
 
 
 
+# LOAD/SAVE THE MODELS VIA PICKLE?
+
 def predict_model(model_list,
                   text):
+    i = 0
     MBTI_type = []
     for model in model_list:
-        prediction = model.predict(text)
+        prediction = model.predict(text[i])
         print(f"Testing prediction = {prediction}")
         MBTI_type.append(prediction)
+        i += 1
     print(f"Final list of predictions = {MBTI_type}")
     return MBTI_type
