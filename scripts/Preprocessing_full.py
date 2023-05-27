@@ -509,13 +509,32 @@ def training_preprocessing(data, vectorize=False):
 
 
 def training_oversampling(data):
-    #
-    #
-    # Mo's code will go here *******
-    #
-    #
-    print(f"oversampled dataset contains {data.shape[0]} rows and {data.shape[1]} columns")
-    pass
+    """
+    - Takes in one dataframe
+    - Oversamples everything
+    - Outputs one dataframe
+    """
+    new_data = []
+    for index, row in data.iterrows():
+        type_value = row['type']
+        text_value = row['text']
+        e_i = row['e_i']
+        s_n = row['s_n']
+        f_t = row['f_t']
+        p_j = row['p_j']
+        avg_word_length = row['avg_word_length']
+        type_to_token_ratio = row['type_to_token_ratio']
+        if len(text_value) <= 460:
+            new_data.append([type_value, text_value, e_i, s_n, f_t, p_j, avg_word_length, type_to_token_ratio])
+
+        if len(text_value) > 500:
+            num_splits = len(text_value) // 500
+            for i in range(num_splits):
+                new_data.append([type_value, text_value[i * 500: (i + 1) * 500], e_i, s_n, f_t, p_j, avg_word_length, type_to_token_ratio])
+
+    dataframe = pd.DataFrame(new_data, columns=['type', 'text', 'e_i', 's_n', 'f_t', 'p_j', 'avg_word_length', 'type_to_token_ratio'])
+
+    return dataframe
 
 
 def training_balancing(data):
@@ -524,14 +543,52 @@ def training_balancing(data):
     and will create FOUR new dataframes in which each class is perfectly bal-
     anced.
     '''
-    e_i_data = []
-    s_n_data = []
-    f_t_data = []
-    p_j_data = []
-    return [e_i_data, s_n_data, f_t_data, p_j_data]
+    e_i_data = data.drop(columns=['type', 's_n', 'f_t', 'p_j'])
+    e_i_data.rename(columns={'e_i': 'type'}, inplace=True)
+    e_i_data = e_i_data[['type', 'text', 'avg_word_length', 'type_to_token_ratio']]
+    s_n_data = data.drop(columns=['type', 'e_i', 'f_t', 'p_j'])
+    s_n_data.rename(columns={'s_n': 'type'}, inplace=True)
+    s_n_data = s_n_data[['type', 'text', 'avg_word_length', 'type_to_token_ratio']]
+    f_t_data = data.drop(columns=['type', 'e_i', 's_n', 'p_j'])
+    f_t_data.rename(columns={'f_t': 'type'}, inplace=True)
+    f_t_data = f_t_data[['type', 'text', 'avg_word_length', 'type_to_token_ratio']]
+    p_j_data = data.drop(columns=['type', 'e_i', 's_n', 'f_t'])
+    p_j_data.rename(columns={'p_j': 'type'}, inplace=True)
+    p_j_data = p_j_data[['type', 'text', 'avg_word_length', 'type_to_token_ratio']]
+
+    def balancer(dataframe):
+        '''
+        - Binarizes the "type" column
+        - Calculates the lengths the binary values
+        - Adjusts the number of rows to match the value with fewer rows
+        - Spits out a dataframe
+        '''
+        # Binarize the "type" column
+        dataframe['binary_type'] = dataframe['type'].apply(lambda x: 1 if x == dataframe['type'].iloc[0] else 0)
+
+        # Calculate the length of each binary value
+        length_1 = dataframe[dataframe['binary_type'] == 1].shape[0]
+        length_0 = dataframe[dataframe['binary_type'] == 0].shape[0]
+
+        # Determine the value with fewer rows
+        min_length = min(length_1, length_0)
+
+        # Adjust the number of rows to match the value with fewer rows
+        dataframe_adjusted = pd.concat([dataframe[dataframe['binary_type'] == 1].head(min_length),
+                                dataframe[dataframe['binary_type'] == 0].head(min_length)])
+
+        dataframe_adjusted.drop(columns=['binary_type'], inplace=True)
+
+        # Restore the original "type" values
+        dataframe_adjusted['type'] = dataframe['type']
+
+        return dataframe_adjusted
+
+    df_dict = {'e_i': balancer(e_i_data), 's_n': balancer(s_n_data), 'f_t': balancer(f_t_data), 'p_j': balancer(p_j_data)}
+    return df_dict
 
 
-def training_vectorize(e_i_data, s_n_data, f_t_data, p_j_data):
+def training_vectorize(df_dict):
     '''
     Function takes in FOUR separate dataframes -- one for each MBTI factor --
     and fits a vectorizer to each one independently.
@@ -544,14 +601,23 @@ def training_vectorize(e_i_data, s_n_data, f_t_data, p_j_data):
 
     Returns FOUR vectorized datasets, in the same order.
     '''
+    # Unpack DFs from dict:
+    e_i_data = df_dict['e_i']
+    s_n_data = df_dict['s_n']
+    f_p_data = df_dict['f_t']
+    p_j_data = df_dict['p_j']
+
+    # Vectorize:
     e_i_data = ei_vectorize(data, is_train=True)
     s_n_data = sn_vectorize(data, is_train=True)
     f_t_data = ft_vectorize(data, is_train=True)
     p_j_data = pj_vectorize(data, is_train=True)
+
     print(f"E-I dataset contains {e_i_data.shape[0]} rows and {e_i_data.shape[1]} columns")
     print(f"S-N dataset contains {s_n_data.shape[0]} rows and {s_n_data.shape[1]} columns")
     print(f"F-T dataset contains {f_t_data.shape[0]} rows and {f_t_data.shape[1]} columns")
     print(f"P-J dataset contains {p_j_data.shape[0]} rows and {p_j_data.shape[1]} columns")
+
     return [e_i_data, s_n_data, f_t_data, p_j_data]
 
 
