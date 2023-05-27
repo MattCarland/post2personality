@@ -230,11 +230,15 @@ def remove_punctuation(dataframe):
 
 
 def remove_MBTI_types(dataframe):
+
     # Set list of terms (strings) to remove:
     masking = ['intj', 'intp', 'infj', 'infp',
                'istj', 'istp', 'isfj', 'isfp',
                'entj', 'entp', 'enfj', 'enfp',
-               'estj', 'estp', 'esfj', 'esfp']
+               'estj', 'estp', 'esfj', 'esfp',
+
+               'text', 'type']
+
     def remove_types(text):
         for type in masking:
             text = text.replace(type,'')
@@ -351,7 +355,7 @@ def ei_vectorize(dataframe, is_train=False):
     if is_train:
         ei_vectorizer = vectorizer
         ei_vectorizer.fit(dataframe['text'].apply(' '.join))
-        with open('ei_vectorizer', 'wb') as file:
+        with open('ei_vectorizer.pkl', 'wb') as file:
             pickle.dump(ei_vectorizer, file)
         ei_X = ei_vectorizer.transform(dataframe['text'].apply(' '.join))
     else:
@@ -378,7 +382,7 @@ def sn_vectorize(dataframe, is_train=False):
     if is_train:
         sn_vectorizer = vectorizer
         sn_vectorizer.fit(dataframe['text'].apply(' '.join))
-        with open('sn_vectorizer', 'wb') as file:
+        with open('sn_vectorizer.pkl', 'wb') as file:
             pickle.dump(sn_vectorizer, file)
         sn_X = sn_vectorizer.transform(dataframe['text'].apply(' '.join))
     else:
@@ -405,7 +409,7 @@ def ft_vectorize(dataframe, is_train=False):
     if is_train:
         ft_vectorizer = vectorizer
         ft_vectorizer.fit(dataframe['text'].apply(' '.join))
-        with open('ft_vectorizer', 'wb') as file:
+        with open('ft_vectorizer.pkl', 'wb') as file:
             pickle.dump(ft_vectorizer, file)
         ft_X = ft_vectorizer.transform(dataframe['text'].apply(' '.join))
     else:
@@ -432,7 +436,7 @@ def pj_vectorize(dataframe, is_train=False):
     if is_train:
         pj_vectorizer = vectorizer
         pj_vectorizer.fit(dataframe['text'].apply(' '.join))
-        with open('pj_vectorizer', 'wb') as file:
+        with open('pj_vectorizer.pkl', 'wb') as file:
             pickle.dump(pj_vectorizer, file)
         pj_X = pj_vectorizer.transform(dataframe['text'].apply(' '.join))
     else:
@@ -524,7 +528,7 @@ def training_oversampling(data):
         p_j = row['p_j']
         avg_word_length = row['avg_word_length']
         type_to_token_ratio = row['type_to_token_ratio']
-        if len(text_value) <= 460:
+        if len(text_value) <= 500:
             new_data.append([type_value, text_value, e_i, s_n, f_t, p_j, avg_word_length, type_to_token_ratio])
 
         if len(text_value) > 500:
@@ -608,10 +612,10 @@ def training_vectorize(df_dict):
     p_j_data = df_dict['p_j']
 
     # Vectorize:
-    e_i_data = ei_vectorize(data, is_train=True)
-    s_n_data = sn_vectorize(data, is_train=True)
-    f_t_data = ft_vectorize(data, is_train=True)
-    p_j_data = pj_vectorize(data, is_train=True)
+    e_i_data = ei_vectorize(e_i_data, is_train=True)
+    s_n_data = sn_vectorize(s_n_data, is_train=True)
+    f_t_data = ft_vectorize(f_t_data, is_train=True)
+    p_j_data = pj_vectorize(p_j_data, is_train=True)
 
     print(f"E-I dataset contains {e_i_data.shape[0]} rows and {e_i_data.shape[1]} columns")
     print(f"S-N dataset contains {s_n_data.shape[0]} rows and {s_n_data.shape[1]} columns")
