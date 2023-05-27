@@ -51,6 +51,25 @@ def tokenize(data):
     data['text'] = data['text'].apply(lambda x: word_tokenize(x))
     return data['text']
 
+# if the toeknized list has more than 500 words
+# it splits the list into another list of 500
+# and drops the remaineder if less than 500 words
+def split_rows(data):
+    new_data = []
+    for text in data['text']:
+        if len(text) > 500:
+            num_splits = len(text) // 500
+            remainder = len(text) % 500
+            for i in range(num_splits):
+                new_data.append(text[i*500 : (i+1)*500])
+            if remainder > 0:
+                new_data.append(text[-remainder:])
+        else:
+            new_data.append(text)
+    data['text'] = new_data
+    return data['text']
+
+
 
 # Stopword Removal
 #stop_words = set(stopwords.words('english'))
