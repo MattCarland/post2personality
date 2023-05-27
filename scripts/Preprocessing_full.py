@@ -604,7 +604,7 @@ def training_vectorize(df_dict):
     # Unpack DFs from dict:
     e_i_data = df_dict['e_i']
     s_n_data = df_dict['s_n']
-    f_p_data = df_dict['f_t']
+    f_t_data = df_dict['f_t']
     p_j_data = df_dict['p_j']
 
     # Vectorize:
