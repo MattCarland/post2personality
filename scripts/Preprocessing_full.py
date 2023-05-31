@@ -2,7 +2,7 @@
 ################################################################################
 # Global parameters to set:
 
-DATASET_NUMBER = 0   # <-- (1-3, or '0' for ALL data)
+DATASET_NUMBER = 2   # <-- (1-3, or '0' for ALL data)
 
 MIN_DOC_FREQ = 0.02
 MAX_DOC_FREQ = 0.80
@@ -606,10 +606,10 @@ def training_vectorize(df_dict):
     Returns FOUR vectorized datasets, in the same order.
     '''
     # Unpack DFs from dict:
-    e_i_data = df_dict['e_i']
-    s_n_data = df_dict['s_n']
-    f_t_data = df_dict['f_t']
-    p_j_data = df_dict['p_j']
+    e_i_data = df_dict['e_i'].reset_index(drop=True)
+    s_n_data = df_dict['s_n'].reset_index(drop=True)
+    f_t_data = df_dict['f_t'].reset_index(drop=True)
+    p_j_data = df_dict['p_j'].reset_index(drop=True)
 
     # Vectorize:
     e_i_data = ei_vectorize(e_i_data, is_train=True)
