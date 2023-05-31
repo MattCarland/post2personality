@@ -44,7 +44,7 @@ def train_model(data_list,
             If `Prediction` is False, the trained model is returned.
     """
 
-
+    feature_names_list = []
     model_list = []
     list_of_histories =[]
     for dataset in data_list:
@@ -75,25 +75,47 @@ def train_model(data_list,
 
             list_of_histories.append(prediction_dict)
 
+        feature_names = list(X_train.columns.values)
 
+        feature_names_list.append(feature_names)
         model_list.append(model)
 
+    model_dict = {"Model": model_list,
+                  "Features": feature_names_list}
 
-    return model_list, list_of_histories
+    return model_dict, list_of_histories
 # def train_4_types_model(model):
 
 
 
 # LOAD/SAVE THE MODELS VIA PICKLE?
 
-def predict_model(model_list,
-                  text):
+def predict_model(models,
+                  texts,
+                  training_feature_list):
     i = 0
     MBTI_type = []
-    for model in model_list:
-        prediction = model.predict(text[i])
+
+    while i < len(texts):
+        
+        pred_feature_list = list(texts[i].columns.values)
+        df = texts[i]
+
+        for word in training_feature_list[i]:
+            if word not in pred_feature_list:
+                df[word] = 0
+                print(f"added {word}")
+
+        for word in pred_feature_list:
+            if word not in training_feature_list[i]:
+                df.drop(columns = [word], inplace = True)
+                print(f"dropped {word}")
+
+        prediction = models[i].predict(df)
         print(f"Testing prediction = {prediction}")
         MBTI_type.append(prediction)
         i += 1
+
+
     print(f"Final list of predictions = {MBTI_type}")
     return MBTI_type
