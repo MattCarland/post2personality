@@ -3,12 +3,50 @@ import pandas as pd
 import numpy as np
 from sklearn.linear_model import SGDClassifier
 from sklearn.metrics import balanced_accuracy_score, classification_report
-from sklearn.model_selection import train_test_split, cross_val_predict
+from sklearn.model_selection import train_test_split, cross_val_predict, GridSearchCV
 import pickle
 
-def initialize_model():
-    model = SGDClassifier()
-    return model
+from sklearn.utils._testing import ignore_warnings
+from sklearn.exceptions import ConvergenceWarning
+import warnings
+
+
+
+def initialize_models(params = None,
+                      is_SGD = True,
+                      new_models = True):
+    model_list = []
+    if params is not None:
+        for i in range(4):
+            param = params[i]
+            print(param)
+            # param_list = []
+            # for k,v in param.items():
+            #     param_indiv = f"{k}={v} ,"
+            #     param_list.append(param_indiv)
+            # param = "".join(param_list)[:-1]
+            # print(param)
+
+            if is_SGD == True:
+                model = SGDClassifier(max_iter=2000, early_stopping=True).set_params(**param)
+            with open(f'model{i}.pkl', 'wb') as file:
+                pickle.dump(model, file)
+            model_list.append(model)
+        return model_list
+
+    if new_models == True:
+            model_list = []
+            for i in range(4):
+                model = SGDClassifier(max_iter=2000, early_stopping=True)
+                with open(f'model{i}.pkl', 'wb') as file:
+                    pickle.dump(model, file)
+            return model_list
+
+    if params is None:
+        return "Please specify parameters in list format"
+
+    return model_list
+
 
 
 
@@ -19,34 +57,62 @@ def PredictDict(model, X_test, y_test):
     report['bal_acc'] = bal_acc
     return report
 
+@ignore_warnings(category=ConvergenceWarning)
+def grid_search_all_models(data_list,
+                           is_SGD=True):
+    i = 0
+    param_list = []
+
+
+    for dataset in data_list:
+        y = dataset.iloc[:,[0]]
+        X = dataset.drop(columns = dataset.columns[0])
+
+        X_train, X_test, y_train, y_test = train_test_split(X, y.values.ravel(),
+                                                test_size=.3)
+
+        type1 = y.type.value_counts().index.to_list()[0]
+        type2 = y.type.value_counts().index.to_list()[1]
+
+        with open(f'model{i}.pkl', 'rb') as file:
+            model = pickle.load(file)
+
+        if is_SGD == True:
+            param_grid = {'loss': ['hinge', 'log_loss',
+                                     'perceptron',
+                                    'squared_error'],
+                        'penalty': ['l2', 'l1', 'elasticnet'],
+                        'alpha': [0.0001, 0.001, 0.01, .1]}
+
+        grid_search = GridSearchCV(model,
+                                   param_grid,
+                                   cv=10, n_jobs=-1
+                                   )
+        grid_search.fit(X_train, y_train)
+
+        param_list.append(grid_search.best_params_)
+
+        print(f"Model Searched = {model} {(type1+type2).upper()}")
+        print("================================")
+        print("Best parameters:", grid_search.best_params_)
+        print("Best score:", grid_search.best_score_)
+        print("================================")
+
+    return param_list
+
+
+
+
 
 
 def train_model(data_list,
-                 model_select,
+                 model_list,
                  random_state = 1,
                  Prediction = True):
-    """
-        Test a machine learning model on a given dataset.
 
-    Args:
-        dataset (pandas.DataFrame): The dataset to be used for testing the model.
-            The first element of the dataset is the target variable (`y`),
-            and everything else is the feature variable (`X`).
-        model_selection: The machine learning model to be tested.
-        random_state (int): Random seed for reproducibility. Default is 1.
-        Prediction (bool): Indicates whether to perform prediction and return prediction results.
-            Default is True.
 
-    Returns:
-        dict or model: If `Prediction` is True, a dictionary containing the prediction results is returned.
-            The keys are 'y_true' (true target values), 'y_pred' (predicted target values),
-            and 'accuracy' (accuracy score of the model).
-            If `Prediction` is False, the trained model is returned.
-    """
-
-    feature_names_list = []
-    model_list = []
     list_of_histories =[]
+    i = 0
     for dataset in data_list:
         y = dataset.iloc[:,[0]]
         X = dataset.drop(columns = dataset.columns[0])
@@ -58,64 +124,70 @@ def train_model(data_list,
                                                         random_state=random_state)
 
 
-        model = model_select
-
-        model.fit(X_train, y_train)
-
-
-        MBTI_type = []
-
         type1 = y.type.value_counts().index.to_list()[0]
         type2 = y.type.value_counts().index.to_list()[1]
 
+        model = model_list[i]
+
+        model.fit(X_train, y_train)
+
+        with open(f'model{i}.pkl', 'wb') as file:
+            pickle.dump(model, file)
+
+
         if Prediction == True:
             prediction_dict = PredictDict(model, X_test, y_test)
-            print(f"F1-score:{100*round(prediction_dict['macro avg']['f1-score'],5)}")
-            print(f"Model Type: {type1 + type2}")
+            print(f"F1-score: {100*round(prediction_dict['macro avg']['f1-score'],5)}%")
+            print(f"Model: {(model)}")
+            print(f"MBTI Type: {(type1 + type2).upper()}")
+            print("========================================")
 
             list_of_histories.append(prediction_dict)
 
-        feature_names = list(X_train.columns.values)
 
-        feature_names_list.append(feature_names)
-        model_list.append(model)
 
-    model_dict = {"Model": model_list,
-                  "Features": feature_names_list}
+        i += 1
 
-    return model_dict, list_of_histories
+
+
+
+    return list_of_histories
 # def train_4_types_model(model):
 
 
 
 # LOAD/SAVE THE MODELS VIA PICKLE?
 
-def predict_model(models,
-                  texts,
-                  training_feature_list):
+def predict_model(texts):
+
     i = 0
     MBTI_type = []
 
     while i < len(texts):
-        
-        pred_feature_list = list(texts[i].columns.values)
+
+        with open(f'model{i}.pkl', 'rb') as file:
+            model = pickle.load(file)
+
         df = texts[i]
+        for col in df.columns.values:
+            if col == 'type':
+                df.drop('type', axis=1, inplace=True)
 
-        for word in training_feature_list[i]:
-            if word not in pred_feature_list:
-                df[word] = 0
-                print(f"added {word}")
+        prediction = model.predict(df)[0]
+        proba_raw = model.predict_proba(df)[0]
+        proba_max = max(proba_raw)
+        proba_min = min(proba_raw)
 
-        for word in pred_feature_list:
-            if word not in training_feature_list[i]:
-                df.drop(columns = [word], inplace = True)
-                print(f"dropped {word}")
 
-        prediction = models[i].predict(df)
         print(f"Testing prediction = {prediction}")
+        print(f"Probability = {100*(proba_max.round(5))}%")
+        print(f"classes = {model.classes_}")
+        print("\n")
         MBTI_type.append(prediction)
+
+
         i += 1
 
-
-    print(f"Final list of predictions = {MBTI_type}")
-    return MBTI_type
+    final_type = ''.join(MBTI_type).upper()
+    print(f"Final Prediction = {final_type}")
+    return final_type
