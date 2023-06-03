@@ -4,13 +4,15 @@ from sklearn.metrics import balanced_accuracy_score, classification_report
 from sklearn.model_selection import train_test_split, cross_val_predict, GridSearchCV
 import pickle
 
+from sklearn.ensemble import GradientBoostingClassifier as xgb
+from sklearn.ensemble import AdaBoostClassifier as ada
+
 from sklearn.utils._testing import ignore_warnings
 from sklearn.exceptions import ConvergenceWarning
 
 
-
 def initialize_models(params = None,
-                      is_SGD = True,
+                      model_type = 'SGD',
                       new_models = False):
     """
     Initialize and save machine learning models.
@@ -33,8 +35,12 @@ def initialize_models(params = None,
         model_list = []
         for i in range(4):
             param = params[i]
-            if is_SGD == True:
+            if model_type == 'SGD':
                 model = SGDClassifier(loss='log_loss', max_iter=5000, early_stopping=True).set_params(**param)
+            if model_type == 'XGB':
+                model = xgb(loss = "log_loss").set_params(**param)
+            if model_type == 'ADA':
+                model = ada(loss = "log_loss").set_params(**param)
             with open(f'model{i}.pkl', 'wb') as file:
                 pickle.dump(model, file)
             model_list.append(model)
@@ -44,9 +50,18 @@ def initialize_models(params = None,
     if new_models == True:
             model_list = []
             for i in range(4):
-                model = SGDClassifier(loss='log_loss', max_iter=5000, early_stopping=True)
+                if model_type == 'SGD':
+                    model = SGDClassifier(loss='log_loss', max_iter=5000, early_stopping=True)
+                if model_type == 'XGB':
+                    model = xgb(loss = "log_loss", n_estimators=1000)
+                if model_type == 'ADA':
+                    model = ada(loss = "log_loss")
+                if model_type == None:
+                    print("No model specified")
+                    return NameError
                 with open(f'model{i}.pkl', 'wb') as file:
                     pickle.dump(model, file)
+                model_list.append(model)
             return model_list
 
     if params is None:
@@ -133,7 +148,7 @@ def PredictDict(model, X_test, y_test):
 
 @ignore_warnings(category=ConvergenceWarning)
 def grid_search_all_models(data_list,
-                           is_SGD=True,
+                           model_type='SGD',
                            verbose = True):
 
     """
@@ -176,9 +191,19 @@ def grid_search_all_models(data_list,
             model = pickle.load(file)
 
         # Set parameters to search for
-        if is_SGD == True:
+        if model_type == 'SGD':
             param_grid = {'penalty': ['l2', 'l1', 'elasticnet'],
                         'alpha': [0.0001, 0.001, 0.01, .1]}
+        if model_type == 'XGB':
+            param_grid = {'learning_rate': [.1, .01, .001]
+                        #   'n_estimators': [100, 200, 500]
+                        #   'max_depth': [3, 5, 8]
+                        }
+        if model_type == 'ADA':
+            param_grid = {'learning_rate': [.1, .01, .001],
+                          'n_estimators': [50, 100, 500]
+                        #   'max_depth': [3, 5, 8]
+                        }
 
         # Grid Search
         grid_search = GridSearchCV(model,
@@ -201,7 +226,6 @@ def grid_search_all_models(data_list,
 
 
 def train_model(data_list,
-                 model_list,
                  random_state = 1,
                  Prediction = True):
 
@@ -282,6 +306,8 @@ def predict_model(texts,
 
     i = 0
     MBTI_type = []
+    Class_Dominance_List = []
+    specific_predictions = []
 
     while i < len(texts):
 
@@ -298,6 +324,12 @@ def predict_model(texts,
         class_1 = model.classes_[0].upper()
         class_2 = model.classes_[1].upper()
 
+
+        if proba_raw[0] > proba_raw[1]:
+            Class_Dominance_List.append(proba_raw[0])
+        else:
+            Class_Dominance_List.append(proba_raw[1])
+
         if verbose:
             print(f"Testing prediction = {prediction}")
             print(f"Probability of {class_1}: {100*(proba_raw[0].round(5))}%")
@@ -306,9 +338,21 @@ def predict_model(texts,
 
         MBTI_type.append(prediction)
 
+        type_dict = {"Type" : prediction,
+                 f"{class_1} Probability": proba_raw[0],
+                 f"{class_2} Probability": proba_raw[1]}
+
+        specific_predictions.append(type_dict)
 
         i += 1
 
     final_type = ''.join(MBTI_type).upper()
-    print(f"Final Prediction = {final_type}")
-    return final_type
+
+    # print(Class_Dominance_List)
+    type_score = sum(Class_Dominance_List) / len(Class_Dominance_List)
+
+    result_dict = {"type_prediction": final_type,
+                   "type_score": type_score,
+                   "specific_type_score": specific_predictions}
+
+    return result_dict
