@@ -184,7 +184,7 @@ def type_to_token_ratio(tokenized_text: list[str]) -> float:
     '''
     total_words = len(tokenized_text)
     unique_words = list(set(tokenized_text))
-    return ((len(unique_words)) / total_words)
+    return ((len(unique_words)) / max([total_words,1]))
 
 
 ################################################################################
