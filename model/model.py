@@ -12,21 +12,38 @@ from sklearn.exceptions import ConvergenceWarning
 
 
 def initialize_models(params = None,
-                      model_type = 'SGD',
-                      new_models = False):
+                model_type = 'SGD',
+                new_models = False
+                ):
     """
-    Initialize and save machine learning models.
+    Initializes and saves machine learning models based on the provided parameters or creates new models if specified.
 
-    Parameters:
-        params (list): A list of parameter dictionaries for model initialization and configuration.
-                       Each dictionary contains the model-specific parameters.
-        is_SGD (bool): If True, the models are initialized using SGDClassifier. Default is True.
-        new_models (bool): If True, new models are created from scratch using SGDClassifier.
-                           Default is False.
+    Args:
+        params (list or None): A list of dictionaries containing the parameters for each model. Each dictionary represents the
+            parameters for a specific model. The length of the list should be 4. If set to None, new models will be created
+            instead of using predefined parameters. (default: None)
+        model_type (str): The type of model to initialize. Supported values are 'SGD', 'XGB', and 'ADA'. (default: 'SGD')
+        new_models (bool): If True, new models will be created even if parameters are provided. If False, the model_list will
+            be built based on the provided parameters. (default: False)
 
     Returns:
-        list or str: A list of initialized models if params or new_models is True, or a string
-                     requesting the specification of parameters in list format.
+        list: A list containing the initialized machine learning models.
+
+    Raises:
+        NotImplementedError: Raised if `params` is None.
+
+    Note:
+        - The function saves each initialized model as a pickle file named 'model{i}.pkl', where 'i' represents the index of
+          the model in the model_list.
+        - The function uses different initialization parameters for each model type:
+            - For 'SGD' models, the loss function is set to 'log_loss', the maximum number of iterations is set to 5000,
+              and early stopping is enabled if parameters are provided.
+            - For 'XGB' models, the loss function is set to 'log_loss' and the number of estimators is set to 500 if
+              parameters are provided.
+            - For 'ADA' models, the loss function is set to 'log_loss' if parameters are provided.
+            - If `model_type` is None, a NameError will be printed, and the function will return NameError.
+            - If `params` is None and `new_models` is False, a message will be printed asking to specify parameters, and
+              NotImplementedError will be raised.
 
     """
 
@@ -38,10 +55,10 @@ def initialize_models(params = None,
             if model_type == 'SGD':
                 model = SGDClassifier(loss='log_loss', max_iter=5000, early_stopping=True).set_params(**param)
             if model_type == 'XGB':
-                model = xgb(loss = "log_loss").set_params(**param)
+                model = xgb(loss = "log_loss", n_estimators=500).set_params(**param)
             if model_type == 'ADA':
-                model = ada(loss = "log_loss").set_params(**param)
-            with open(f'model{i}.pkl', 'wb') as file:
+                model = ada(loss = "log_loss", n_estimators=100).set_params(**param)
+            with open(f'model/model{i}.pkl', 'wb') as file:
                 pickle.dump(model, file)
             model_list.append(model)
         return model_list
@@ -53,13 +70,13 @@ def initialize_models(params = None,
                 if model_type == 'SGD':
                     model = SGDClassifier(loss='log_loss', max_iter=5000, early_stopping=True)
                 if model_type == 'XGB':
-                    model = xgb(loss = "log_loss", n_estimators=1000)
+                    model = xgb(loss = "log_loss", n_estimators=500)
                 if model_type == 'ADA':
-                    model = ada(loss = "log_loss")
+                    model = ada(loss = "log_loss", n_estimators=100)
                 if model_type == None:
                     print("No model specified")
                     return NameError
-                with open(f'model{i}.pkl', 'wb') as file:
+                with open(f'model/model{i}.pkl', 'wb') as file:
                     pickle.dump(model, file)
                 model_list.append(model)
             return model_list
@@ -91,7 +108,7 @@ def save_models_pkl(model_list):
 
     i = 0
     for model in model_list:
-        with open(f'model{i}.pkl', 'wb') as file:
+        with open(f'model/model{i}.pkl', 'wb') as file:
             pickle.dump(model, file)
         print(model, " stored")
         i += 1
@@ -114,7 +131,7 @@ def load_models_pkl():
     i = 0
     model_list = []
     while i < 4:
-        with open(f'model{i}.pkl', 'rb') as file:
+        with open(f'model/model{i}.pkl', 'rb') as file:
             model = pickle.load(file)
         model_list.append(model)
     print(f"Model list loaded:")
@@ -148,26 +165,42 @@ def PredictDict(model, X_test, y_test):
 
 @ignore_warnings(category=ConvergenceWarning)
 def grid_search_all_models(data_list,
-                           model_type='SGD',
-                           verbose = True):
-
+                    model_type='SGD',
+                    verbose = True,
+                    rows_for_search=1000
+                    ):
     """
-    Perform grid search for hyperparameter tuning on multiple models using different datasets.
+    Performs grid search on multiple datasets using a specified machine learning model type and returns a list of the best
+    parameters found for each dataset.
 
-    Parameters:
-        data_list (list): A list of datasets to be used for grid search.
-        is_SGD (bool): If True, the models to be tuned are based on SGDClassifier. Default is True.
-        verbose (bool): If True, print information about the grid search process. Default is True.
+    Args:
+        data_list (list): A list of pandas DataFrames representing multiple datasets on which grid search will be performed.
+        model_type (str): The type of machine learning model to use. Supported values are 'SGD', 'XGB', and 'ADA'.
+            (default: 'SGD')
+        verbose (bool): If True, prints detailed information during the grid search process. If False, no additional
+            information is printed. (default: True)
+        rows_for_search (int): The number of rows to sample from each dataset for the grid search. (default: 1000)
 
     Returns:
-        list: A list of dictionaries, where each dictionary contains the best parameters
-              found during the grid search for each model.
+        list: A list of dictionaries containing the best parameters found for each dataset. Each dictionary represents the
+            best parameters for a specific dataset.
 
-    Side Effects:
-        - Prints information about the grid search process, including the model being searched,
-          the best parameters found, and the best score achieved, if verbose is True.
+    Note:
+        - The function assumes that each dataset in `data_list` has the target variable in the first column, and the features
+          in the remaining columns.
+        - The function randomly samples `rows_for_search` rows from each dataset for the grid search.
+        - The function splits the sampled data into training and testing sets using a 70:30 ratio.
+        - The function loads the machine learning model from a pickle file named 'model/model{i}.pkl', where 'i' represents
+          the index of the model to use.
+        - The function sets the grid search parameters based on the specified `model_type`:
+            - For 'SGD' models, the grid search parameters include 'penalty' (l2, l1, elasticnet) and 'alpha' values.
+            - For 'XGB' models, the grid search parameters include 'learning_rate' and 'max_depth' values.
+            - For 'ADA' models, the grid search parameters include 'learning_rate' and 'max_depth' values.
+        - The grid search uses 5-fold cross-validation.
+        - The function prints detailed information about each grid search iteration if `verbose` is True.
 
     """
+
 
 
     i = 0
@@ -179,6 +212,10 @@ def grid_search_all_models(data_list,
         y = dataset.iloc[:,[0]]
         X = dataset.drop(columns = dataset.columns[0])
 
+        # Set rows for search
+        y = y.sample(n = rows_for_search, ignore_index=True)
+        X = X.sample(n = rows_for_search, ignore_index=True)
+
         # Set X_train and y_train
         X_train, X_test, y_train, y_test = train_test_split(X, y.values.ravel(),
                                                 test_size=.3)
@@ -187,7 +224,7 @@ def grid_search_all_models(data_list,
         type2 = y.type.value_counts().index.to_list()[1]
 
         # Load Models
-        with open(f'model{i}.pkl', 'rb') as file:
+        with open(f'model/model{i}.pkl', 'rb') as file:
             model = pickle.load(file)
 
         # Set parameters to search for
@@ -195,21 +232,21 @@ def grid_search_all_models(data_list,
             param_grid = {'penalty': ['l2', 'l1', 'elasticnet'],
                         'alpha': [0.0001, 0.001, 0.01, .1]}
         if model_type == 'XGB':
-            param_grid = {'learning_rate': [.1, .01, .001]
+            param_grid = {'learning_rate': [.01, .001],
                         #   'n_estimators': [100, 200, 500]
-                        #   'max_depth': [3, 5, 8]
+                        'max_depth': [3, 5]
                         }
         if model_type == 'ADA':
             param_grid = {'learning_rate': [.1, .01, .001],
-                          'n_estimators': [50, 100, 500]
-                        #   'max_depth': [3, 5, 8]
+                          # 'n_estimators': [50, 100, 500]
+                          'max_depth': [3, 5, 8]
                         }
 
         # Grid Search
         grid_search = GridSearchCV(model,
-                                   param_grid,
-                                   cv=5
-                                   )
+                            param_grid,
+                            cv=5
+                            )
         grid_search.fit(X_train, y_train)
 
         param_list.append(grid_search.best_params_)
@@ -225,9 +262,11 @@ def grid_search_all_models(data_list,
 
 
 
-def train_model(data_list,
-                 random_state = 1,
-                 Prediction = True):
+def train_model(df_list,
+            model_list,
+            random_state = 1,
+            Prediction = True
+            ):
 
     """
     Train machine learning models on multiple datasets.
@@ -252,7 +291,7 @@ def train_model(data_list,
 
     list_of_histories = []
     i = 0
-    for dataset in data_list:
+    for dataset in df_list:
         # Set X and y
         y = dataset.iloc[:,[0]]
         X = dataset.drop(columns = dataset.columns[0])
@@ -267,7 +306,7 @@ def train_model(data_list,
         # Fit Model and Save the Fitted Model
         model = model_list[i]
         model.fit(X_train, y_train)
-        with open(f'model{i}.pkl', 'wb') as file:
+        with open(f'model/model{i}.pkl', 'wb') as file:
             pickle.dump(model, file)
 
         # Save the results and print them
@@ -286,21 +325,46 @@ def train_model(data_list,
 
 
 def predict_model(texts,
-                  verbose = True):
+              verbose = True
+              ):
     """
-    Predict the MBTI type based on given texts using pre-trained models.
+    Predicts the MBTI (Myers-Briggs Type Indicator) type for a given list of texts using pre-trained machine learning models.
+    Returns a dictionary containing the overall type prediction, a type score, and specific type scores for each individual text.
 
-    Parameters:
-        texts (list): A list of text inputs to be used for prediction.
-        verbose (bool): If True, print detailed prediction information for each input. Default is True.
+    Args:
+        texts (list): A list of pandas DataFrames representing the texts to predict the MBTI type for. Each DataFrame should
+            contain the features required for prediction.
+        verbose (bool): If True, prints detailed information for each prediction. If False, no additional information is
+            printed. (default: True)
 
     Returns:
-        str: The predicted MBTI type based on the input texts.
+        dict: A dictionary containing the overall type prediction, a type score, and specific type scores for each individual
+            text. The dictionary has the following structure:
+            {
+                "type_prediction": <overall_type_prediction>,
+                "type_score": <type_score>,
+                "specific_type_score": [
+                    {
+                        "Type": <individual_type_prediction>,
+                        "<class_1>_Probability": <probability_of_class_1>,
+                        "<class_2>_Probability": <probability_of_class_2>
+                    },
+                    ...
+                ]
+            }
 
-    Side Effects:
-        - Loads pre-trained models from pickle files named 'model{i}.pkl', where i represents the index.
-        - Prints the testing prediction, probability of each class, and the final prediction if verbose is True.
-        - Appends each individual prediction to the MBTI_type list.
+    Note:
+        - The function assumes that each text in `texts` is represented as a pandas DataFrame, where each column represents a
+          feature required for prediction.
+        - The function loads the pre-trained machine learning model from a pickle file named 'model/model{i}.pkl', where 'i'
+          represents the index of the model to use.
+        - The function makes predictions for each text and calculates the dominance of the predicted class based on the
+          predicted probabilities.
+        - The function prints detailed information about each prediction if `verbose` is True.
+        - The overall type prediction is obtained by concatenating the individual type predictions.
+        - The type score is calculated as the average dominance of the predicted class across all predictions.
+        - The specific type scores provide the predicted MBTI type, probability of class 1, and probability of class 2 for each
+          individual text.
 
     """
 
@@ -311,7 +375,7 @@ def predict_model(texts,
 
     while i < len(texts):
 
-        with open(f'model{i}.pkl', 'rb') as file:
+        with open(f'model/model{i}.pkl', 'rb') as file:
             model = pickle.load(file)
 
         df = texts[i]
