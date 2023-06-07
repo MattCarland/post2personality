@@ -12,4 +12,5 @@ requests
 datetime
 os
 torch
-pandas transformers
+pandas-transformers
+transformers
