@@ -38,46 +38,46 @@ from sklearn.feature_extraction.text import CountVectorizer # <-- I went with a 
 #         one google cloud storage is up and running.
 
 ### Use ALL data:
-if DATASET_NUMBER == 0:
+# if DATASET_NUMBER == 0:
 
-    data_1 = pd.read_csv('data/csv/MBTI 500.csv')
-    data_1 = data_1[['type', 'posts']]
-    data_1.rename(columns={'posts': 'text'}, inplace=True)
+#     data_1 = pd.read_csv('data/csv/MBTI 500.csv')
+#     data_1 = data_1[['type', 'posts']]
+#     data_1.rename(columns={'posts': 'text'}, inplace=True)
 
-    data_2 = pd.read_csv('data/csv/twitter_MBTI.csv')
-    data_2 = data_2[['label', 'text']]
-    data_2.rename(columns={'label': 'type'}, inplace=True)
+#     data_2 = pd.read_csv('data/csv/twitter_MBTI.csv')
+#     data_2 = data_2[['label', 'text']]
+#     data_2.rename(columns={'label': 'type'}, inplace=True)
 
-    data_3 = pd.read_csv('data/csv/mbti_1.csv')
-    data_3.rename(columns={'posts': 'text'}, inplace=True)
+#     data_3 = pd.read_csv('data/csv/mbti_1.csv')
+#     data_3.rename(columns={'posts': 'text'}, inplace=True)
 
-    dataframes = [data_1, data_2, data_3]
-    data = pd.concat(dataframes)
+#     dataframes = [data_1, data_2, data_3]
+#     data = pd.concat(dataframes)
 
-# 1) Types-500 dataset (already preprocessed):
-if DATASET_NUMBER == 1:
-    data = pd.read_csv('data/csv/MBTI 500.csv')
-    data = data[['type', 'posts']]
-    data.rename(columns={'posts': 'text'}, inplace=True)
+# # 1) Types-500 dataset (already preprocessed):
+# if DATASET_NUMBER == 1:
+#     data = pd.read_csv('data/csv/MBTI 500.csv')
+#     data = data[['type', 'posts']]
+#     data.rename(columns={'posts': 'text'}, inplace=True)
 
-# 2) Twitter dataset:
-if DATASET_NUMBER == 2:
-    data = pd.read_csv('data/csv/twitter_MBTI.csv')
-    data = data[['label', 'text']]
-    data.rename(columns={'label': 'type'}, inplace=True)
+# # 2) Twitter dataset:
+# if DATASET_NUMBER == 2:
+#     data = pd.read_csv('data/csv/twitter_MBTI.csv')
+#     data = data[['label', 'text']]
+#     data.rename(columns={'label': 'type'}, inplace=True)
 
-# 3) PersonalityCafe forums dataset:
-if DATASET_NUMBER == 3:
-    data = pd.read_csv('data/csv/mbti_1.csv')
-    data.rename(columns={'posts': 'text'}, inplace=True)
+# # 3) PersonalityCafe forums dataset:
+# if DATASET_NUMBER == 3:
+#     data = pd.read_csv('data/csv/mbti_1.csv')
+#     data.rename(columns={'posts': 'text'}, inplace=True)
 
 
-print(f'\nDataset contains {data.shape[0]} rows\n')
+# print(f'\nDataset contains {data.shape[0]} rows\n')
 
-#_________________________________________
-### OPTIONAL: DATA LIMITING
-if DATA_LIMIT > 0:
-    data = data.iloc[:DATA_LIMIT]
+# #_________________________________________
+# ### OPTIONAL: DATA LIMITING
+# if DATA_LIMIT > 0:
+#     data = data.iloc[:DATA_LIMIT]
 #_________________________________________
 
 
@@ -355,11 +355,11 @@ def ei_vectorize(dataframe, is_train=False):
     if is_train:
         ei_vectorizer = vectorizer
         ei_vectorizer.fit(dataframe['text'].apply(' '.join))
-        with open('ei_vectorizer.pkl', 'wb') as file:
+        with open('model/ei_vectorizer.pkl', 'wb') as file:
             pickle.dump(ei_vectorizer, file)
         ei_X = ei_vectorizer.transform(dataframe['text'].apply(' '.join))
     else:
-        with open('ei_vectorizer.pkl', 'rb') as file:
+        with open('model/ei_vectorizer.pkl', 'rb') as file:
             ei_vectorizer = pickle.load(file)
         ei_X = ei_vectorizer.transform(dataframe['text'].apply(' '.join))
     ei_X = pd.DataFrame(ei_X.toarray(), columns=ei_vectorizer.get_feature_names_out())
@@ -382,11 +382,11 @@ def sn_vectorize(dataframe, is_train=False):
     if is_train:
         sn_vectorizer = vectorizer
         sn_vectorizer.fit(dataframe['text'].apply(' '.join))
-        with open('sn_vectorizer.pkl', 'wb') as file:
+        with open('model/sn_vectorizer.pkl', 'wb') as file:
             pickle.dump(sn_vectorizer, file)
         sn_X = sn_vectorizer.transform(dataframe['text'].apply(' '.join))
     else:
-        with open('sn_vectorizer.pkl', 'rb') as file:
+        with open('model/sn_vectorizer.pkl', 'rb') as file:
             sn_vectorizer = pickle.load(file)
         sn_X = sn_vectorizer.transform(dataframe['text'].apply(' '.join))
     sn_X = pd.DataFrame(sn_X.toarray(), columns=sn_vectorizer.get_feature_names_out())
@@ -409,11 +409,11 @@ def ft_vectorize(dataframe, is_train=False):
     if is_train:
         ft_vectorizer = vectorizer
         ft_vectorizer.fit(dataframe['text'].apply(' '.join))
-        with open('ft_vectorizer.pkl', 'wb') as file:
+        with open('model/ft_vectorizer.pkl', 'wb') as file:
             pickle.dump(ft_vectorizer, file)
         ft_X = ft_vectorizer.transform(dataframe['text'].apply(' '.join))
     else:
-        with open('ft_vectorizer.pkl', 'rb') as file:
+        with open('model/ft_vectorizer.pkl', 'rb') as file:
             ft_vectorizer = pickle.load(file)
         ft_X = ft_vectorizer.transform(dataframe['text'].apply(' '.join))
     ft_X = pd.DataFrame(ft_X.toarray(), columns=ft_vectorizer.get_feature_names_out())
@@ -436,11 +436,11 @@ def pj_vectorize(dataframe, is_train=False):
     if is_train:
         pj_vectorizer = vectorizer
         pj_vectorizer.fit(dataframe['text'].apply(' '.join))
-        with open('pj_vectorizer.pkl', 'wb') as file:
+        with open('model/pj_vectorizer.pkl', 'wb') as file:
             pickle.dump(pj_vectorizer, file)
         pj_X = pj_vectorizer.transform(dataframe['text'].apply(' '.join))
     else:
-        with open('pj_vectorizer.pkl', 'rb') as file:
+        with open('model/pj_vectorizer.pkl', 'rb') as file:
             pj_vectorizer = pickle.load(file)
         pj_X = pj_vectorizer.transform(dataframe['text'].apply(' '.join))
     pj_X = pd.DataFrame(pj_X.toarray(), columns=pj_vectorizer.get_feature_names_out())

@@ -11,6 +11,8 @@ post2personality.egg-info/dependency_links.txt
 post2personality.egg-info/not-zip-safe
 post2personality.egg-info/requires.txt
 post2personality.egg-info/top_level.txt
+scripts/BERT_preprocessing.py
+scripts/Preprocessing.py
 scripts/Preprocessing_full.py
 scripts/__init__.py
 scripts/model_testing.py

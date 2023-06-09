@@ -11,3 +11,6 @@ re
 requests
 datetime
 os
+torch
+pandas-transformers
+transformers
