@@ -57,7 +57,7 @@ def initialize_models(params = None,
             if model_type == 'XGB':
                 model = xgb(loss = "log_loss", n_estimators=500).set_params(**param)
             if model_type == 'ADA':
-                model = ada(loss = "log_loss", n_estimators=100).set_params(**param)
+                model = ada( n_estimators=100).set_params(**param)
             with open(f'model/model{i}.pkl', 'wb') as file:
                 pickle.dump(model, file)
             model_list.append(model)
@@ -72,7 +72,7 @@ def initialize_models(params = None,
                 if model_type == 'XGB':
                     model = xgb(loss = "log_loss", n_estimators=500)
                 if model_type == 'ADA':
-                    model = ada(loss = "log_loss", n_estimators=100)
+                    model = ada(n_estimators=100)
                 if model_type == None:
                     print("No model specified")
                     return NameError
@@ -212,6 +212,8 @@ def grid_search_all_models(data_list,
         y = dataset.iloc[:,[0]]
         X = dataset.drop(columns = dataset.columns[0])
 
+
+
         # Set rows for search
         y = y.sample(n = rows_for_search, ignore_index=True)
         X = X.sample(n = rows_for_search, ignore_index=True)
@@ -237,15 +239,16 @@ def grid_search_all_models(data_list,
                         'max_depth': [3, 5]
                         }
         if model_type == 'ADA':
-            param_grid = {'learning_rate': [.1, .01, .001],
+            param_grid = {'learning_rate': [.1, .01, .001]
                           # 'n_estimators': [50, 100, 500]
-                          'max_depth': [3, 5, 8]
+                        #   'max_depth': [3, 5, 8]
                         }
 
         # Grid Search
         grid_search = GridSearchCV(model,
                             param_grid,
-                            cv=5
+                            cv=5,
+                            scoring='accuracy'
                             )
         grid_search.fit(X_train, y_train)
 
@@ -412,7 +415,6 @@ def predict_model(texts,
 
     final_type = ''.join(MBTI_type).upper()
 
-    # print(Class_Dominance_List)
     type_score = sum(Class_Dominance_List) / len(Class_Dominance_List)
 
     result_dict = {"type_prediction": final_type,

@@ -186,16 +186,16 @@ def training_balancing(data):
     '''
     e_i_data = data.drop(columns=['type', 's_n', 'f_t', 'p_j'])
     e_i_data.rename(columns={'e_i': 'type'}, inplace=True)
-    e_i_data = e_i_data[['type', 'text']].reset_index(drop=True)
+    e_i_data = e_i_data[['type', 'embeddings']].reset_index(drop=True)
     s_n_data = data.drop(columns=['type', 'e_i', 'f_t', 'p_j'])
     s_n_data.rename(columns={'s_n': 'type'}, inplace=True)
-    s_n_data = s_n_data[['type', 'text']].reset_index(drop=True)
+    s_n_data = s_n_data[['type', 'embeddings']].reset_index(drop=True)
     f_t_data = data.drop(columns=['type', 'e_i', 's_n', 'p_j'])
     f_t_data.rename(columns={'f_t': 'type'}, inplace=True)
-    f_t_data = f_t_data[['type', 'text']].reset_index(drop=True)
+    f_t_data = f_t_data[['type', 'embeddings']].reset_index(drop=True)
     p_j_data = data.drop(columns=['type', 'e_i', 's_n', 'f_t'])
     p_j_data.rename(columns={'p_j': 'type'}, inplace=True)
-    p_j_data = p_j_data[['type', 'text']].reset_index(drop=True)
+    p_j_data = p_j_data[['type', 'embeddings']].reset_index(drop=True)
 
     def balancer(dataframe):
         '''
@@ -250,7 +250,7 @@ def reform(dataframe_dict):
 ################################################################################
 # TRAINING DATA Pipeline:
 
-def training_preprocessing(input_dataframe):
+def bert_training_preprocessing(input_dataframe):
     training_data = split_targets(input_dataframe)
     cleaned_data = data_cleaning(training_data)
     oversampled_data = training_oversampling(cleaned_data)
@@ -265,7 +265,7 @@ def training_preprocessing(input_dataframe):
 ################################################################################
 # PREDICTION DATA Pipeline:
 
-def prediction_preprocessing(data):
+def bert_prediction_preprocessing(data):
     cleaned_data = data_cleaning(data)
     vectorized_data = BERT_vectorize(cleaned_data)[['embeddings']]
 
