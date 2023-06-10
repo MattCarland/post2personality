@@ -6,11 +6,12 @@ scipy==1.10.0
 scikit-learn==1.2.1
 nltk
 textblob
-string
-re
+# string
+# re
 requests
 datetime
-os
+# os
 torch
-pandas-transformers
+# pandas-transformers
 transformers
+tensorflow

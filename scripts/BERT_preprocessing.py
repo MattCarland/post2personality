@@ -12,6 +12,7 @@ import pandas as pd
 from transformers import BertTokenizer, BertModel
 import torch
 import re
+import numpy as np
 
 
 ################################################################################
@@ -173,6 +174,7 @@ def BERT_vectorize(dataframe):
 
         print(f'Processed {i+1}/{num_rows} samples')
         embeddings.append(embedding)
+        # embeddings.append(np.asarray(embedding).astype(np.float32))
 
     dataframe['embeddings'] = embeddings
     return dataframe
@@ -186,16 +188,16 @@ def training_balancing(data):
     '''
     e_i_data = data.drop(columns=['type', 's_n', 'f_t', 'p_j'])
     e_i_data.rename(columns={'e_i': 'type'}, inplace=True)
-    e_i_data = e_i_data[['type', 'text']].reset_index(drop=True)
+    e_i_data = e_i_data[['type', 'embeddings']].reset_index(drop=True)
     s_n_data = data.drop(columns=['type', 'e_i', 'f_t', 'p_j'])
     s_n_data.rename(columns={'s_n': 'type'}, inplace=True)
-    s_n_data = s_n_data[['type', 'text']].reset_index(drop=True)
+    s_n_data = s_n_data[['type', 'embeddings']].reset_index(drop=True)
     f_t_data = data.drop(columns=['type', 'e_i', 's_n', 'p_j'])
     f_t_data.rename(columns={'f_t': 'type'}, inplace=True)
-    f_t_data = f_t_data[['type', 'text']].reset_index(drop=True)
+    f_t_data = f_t_data[['type', 'embeddings']].reset_index(drop=True)
     p_j_data = data.drop(columns=['type', 'e_i', 's_n', 'f_t'])
     p_j_data.rename(columns={'p_j': 'type'}, inplace=True)
-    p_j_data = p_j_data[['type', 'text']].reset_index(drop=True)
+    p_j_data = p_j_data[['type', 'embeddings']].reset_index(drop=True)
 
     def balancer(dataframe):
         '''
