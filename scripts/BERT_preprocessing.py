@@ -12,6 +12,7 @@ import pandas as pd
 from transformers import BertTokenizer, BertModel
 import torch
 import re
+import numpy as np
 
 
 ################################################################################
@@ -173,6 +174,7 @@ def BERT_vectorize(dataframe):
 
         print(f'Processed {i+1}/{num_rows} samples')
         embeddings.append(embedding)
+        # embeddings.append(np.asarray(embedding).astype(np.float32))
 
     dataframe['embeddings'] = embeddings
     return dataframe
