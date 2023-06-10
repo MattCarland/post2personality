@@ -48,9 +48,9 @@ def train_models(df_list,
         y = dataset.iloc[:,[0]]
         X_pad = dataset['embeddings'].to_list()
 
-        # X_pad = pad_sequences(X, dtype=float, padding = 'post', maxlen = 100)
+        # X_pad = pad_sequences(X, dtype=float, padding = 'post')
 
-        X_pad = np.asarray(X_pad).astype(np.float32)
+        # X_pad = np.asarray(X_pad).astype(np.float32)
 
         # X_pad = X_pad.reshape
 

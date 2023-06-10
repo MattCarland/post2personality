@@ -159,6 +159,7 @@ def BERT_vectorize(dataframe):
     samples = dataframe['text'].tolist()
     num_rows = len(samples)
     embeddings = []
+    vocab = []
     for i in range(num_rows):
         text = samples[i]
 
@@ -177,6 +178,7 @@ def BERT_vectorize(dataframe):
         # embeddings.append(np.asarray(embedding).astype(np.float32))
 
     dataframe['embeddings'] = embeddings
+
     return dataframe
 
 
