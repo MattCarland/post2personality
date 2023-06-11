@@ -174,8 +174,8 @@ def BERT_vectorize(dataframe):
             embedding = outputs.last_hidden_state[0].tolist()  # Get the embedding for the input
 
         print(f'Processed {i+1}/{num_rows} samples')
-        embeddings.append(embedding)
-        # embeddings.append(np.asarray(embedding).astype(np.float32))
+        # embeddings.append(embedding)
+        embeddings.append(np.asarray(embedding).astype(np.float32))
 
     dataframe['embeddings'] = embeddings
 
