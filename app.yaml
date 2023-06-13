@@ -1,0 +1,9 @@
+runtime: python310
+entrypoint: gunicorn -b :$PORT app:app --timeout 120
+instance_class: F4_1G
+runtime_config:
+env_variables:
+  CLIENT_ID: "9DFPNZSTiZ5uCt6YuOTIvQ"
+  SECRET_KEY: "kphZY9bZQBBU0YweGBzZ0OryK8su0A"
+  REDDIT_USERNAME: "Smooth_Plan1425"
+  REDDIT_PW: "%Hl&tY1q%!3!"
