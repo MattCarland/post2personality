@@ -4,9 +4,10 @@
 import requests
 import datetime
 import os
-from dotenv import load_dotenv
+import pandas as pd
+# from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
 class RedditApiData:
     """ A class to get the data from a Reddit user
@@ -45,7 +46,7 @@ class RedditApiData:
         data = {
             'grant_type': 'password',
             'username': self.login_user,
-            'password': os.environ['REDDIT_PW'].strip()
+            'password': "%Hl&tY1q%!3!"
         }
 
         res = requests.post('https://www.reddit.com/api/v1/access_token',
@@ -67,9 +68,12 @@ class RedditApiData:
         usercomments = []
         for comment in comments:
             usercomments.append(comment['data']['body'])
-            result_string = " ".join(usercomments).split(" ")[:1000]
 
-        return result_string
+        result_string = " ".join(usercomments)[:1000]
+        comments_dict = {'text':result_string}
+        result_datframe = pd.DataFrame(data = comments_dict, index=[0])
+
+        return result_datframe
 
     def get_user_infos(self, target_username):
         """
