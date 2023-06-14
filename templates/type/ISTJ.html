@@ -1,0 +1,113 @@
+{% extends 'base.html' %} {% block head %}
+<title>
+  Post to Personality | Get a Personality type from a Reddit account
+</title>
+{% endblock %} {% block body %} {% if reddit_user_info %}
+<div class="container" data-barba="container" data-barba-namespace="result">
+  <a href="{{ url_for('index') }}" class="button"
+    ><img src="/static/images/Arrow_Right_MD.svg" alt="Left arrow" />Back to
+    home page</a
+  >
+  <main>
+    <div class="card">
+      <div class="card__type">
+        <span>I</span>
+        <span>S</span>
+        <span>T</span>
+        <span>J</span>
+      </div>
+      <img
+        src="{{ reddit_user_info.avatar }}"
+        alt="Reddit Avatar"
+        class="reddit_avatar"
+        height="262"
+      />
+      <div class="card__content">
+        <h2 class="card__title">
+          <strong>{{ reddit_user_info.username }}</strong>
+        </h2>
+        <h3>The responsible realist</h3>
+        <p class="card__text">
+          <img src="/static/images/icons8-stars.svg" alt="Star icon" /><strong
+            >Karma : </strong
+          >{{ reddit_user_info.karma }}
+        </p>
+        <p class="card__text">
+          <img src="/static/images/icons8-cake.svg" alt="Cake icon" /><strong>
+            Cake day : </strong
+          >{{ reddit_user_info.member_since }}
+        </p>
+      </div>
+    </div>
+    <div class="share">
+      <div class="share__wrapper">
+        <p>Share</p>
+        <div class="share__icons">
+          <a href="#" class="share__icon"
+            ><img src="/static/images/facebook.svg" alt=""
+          /></a>
+          <a href="" class="share__icon"
+            ><img src="/static/images/Twitter.svg" alt=""
+          /></a>
+          <a href="#" class="share__icon"
+            ><img src="/static/images/LinkedIn.svg" alt=""
+          /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>ISTJ strengths and weaknesses</h1>
+      <p></p>
+      <h2>ISTJs at their best</h2>
+      <p>
+        People with ISTJ preferences are dependable, straightforward, and
+        logical. They like to work with clear processes, tend to stick with what
+        works, and usually learn from their mistakes. They rely on facts and
+        figures so they can do their best at any given task. ISTJs like to have
+        clear, step-by-step instructions for exactly what needs to be done so
+        they can complete a job properly the first time. They like to develop
+        strong, loyal bonds with the people in their lives and tend to be
+        traditional in their desire for a strong family unit.
+      </p>
+      <h2>Potential development areas for ISTJs</h2>
+      <p>
+        ISTJs value structure and logic; they can appear rigid in their approach
+        to the world. If unforeseen circumstances challenge their approach, they
+        can become irritated or stressed. As a result, ISTJs may be overly
+        critical of people who have different ideas or ways of doing things. And
+        because they tend to focus more on tasks than interpersonal
+        relationships, they can be perceived as impersonal.
+      </p>
+      <h2>ISTJs and stress</h2>
+      <p>
+        When circumstances interrupt their usual way of doing things, ISTJs tend
+        to feel overwhelmed and stressed. A sudden change of plan, being forced
+        to deviate from a routine, and uncertainty in a given situation can all
+        cause ISTJs a great deal of stress. ISTJs tend to dislike indirect
+        orders and vague or unclear information. Mess and disorder often make
+        them feel stressed. They may get particularly upset if they feel that
+        their logical approach is being challenged or dismissed by others. If
+        you have ISTJ preferences, try these simple strategies to balance your
+        feelings during times of stress:
+      </p>
+      <ul>
+        <li>
+          Remind yourself that it’s OK to do things differently from time to
+          time. It may be helpful to try a new technique.
+        </li>
+        <li>
+          Challenge yourself to learn something new from a friend or colleague.
+          This keeps your mind sharp and will help you manage stress when new
+          situations arise.
+        </li>
+        <li>
+          Remind others of your boundaries. If you can’t accommodate a new
+          routine or change your schedule, that’s OK. Send calendar invites,
+          block off portions of your day for uninterrupted work, and politely
+          decline suggestions from others if you prefer your own approach.
+        </li>
+      </ul>
+    </div>
+  </main>
+</div>
+{% endif %} {% endblock %}

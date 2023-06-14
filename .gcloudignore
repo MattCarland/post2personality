@@ -36,3 +36,4 @@ env/
 .env
 .envrc
 notebooks/.ipynb_checkpoints
+.ipynb

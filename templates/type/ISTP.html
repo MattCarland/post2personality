@@ -1,0 +1,114 @@
+{% extends 'base.html' %} {% block head %}
+<title>
+  Post to Personality | Get a Personality type from a Reddit account
+</title>
+{% endblock %} {% block body %} {% if reddit_user_info %}
+<div class="container" data-barba="container" data-barba-namespace="result">
+  <a href="{{ url_for('index') }}" class="button"
+    ><img src="/static/images/Arrow_Right_MD.svg" alt="Left arrow" />Back to
+    home page</a
+  >
+  <main>
+    <div class="card">
+      <div class="card__type">
+        <span>I</span>
+        <span>S</span>
+        <span>T</span>
+        <span>P</span>
+      </div>
+      <img
+        src="{{ reddit_user_info.avatar }}"
+        alt="Reddit Avatar"
+        class="reddit_avatar"
+        height="262"
+      />
+      <div class="card__content">
+        <h2 class="card__title">
+          <strong>{{ reddit_user_info.username }}</strong>
+        </h2>
+        <h3>The logical pragmatist</h3>
+        <p class="card__text">
+          <img src="/static/images/icons8-stars.svg" alt="Star icon" /><strong
+            >Karma : </strong
+          >{{ reddit_user_info.karma }}
+        </p>
+        <p class="card__text">
+          <img src="/static/images/icons8-cake.svg" alt="Cake icon" /><strong>
+            Cake day : </strong
+          >{{ reddit_user_info.member_since }}
+        </p>
+      </div>
+    </div>
+    <div class="share">
+      <div class="share__wrapper">
+        <p>Share</p>
+        <div class="share__icons">
+          <a href="#" class="share__icon"
+            ><img src="/static/images/facebook.svg" alt=""
+          /></a>
+          <a href="" class="share__icon"
+            ><img src="/static/images/Twitter.svg" alt=""
+          /></a>
+          <a href="#" class="share__icon"
+            ><img src="/static/images/LinkedIn.svg" alt=""
+          /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>ISTP strengths and weaknesses</h1>
+      <p></p>
+      <h2>ISTPs at their best</h2>
+      <p>
+        People with ISTP preferences are able to rise to just about any occasion
+        with seemingly little effort—and they often save time and resources
+        along the way! Rather than focusing on future goals or planning an
+        overview, they will often find the most efficient course of action to
+        complete an immediate task or resolve a pressing issue. ISTPs tend to
+        avoid drama and don’t like to burden others, so they will work
+        independently to make other people’s lives easier.
+      </p>
+      <h2>Potential development areas for ISTPs</h2>
+      <p>
+        Because they’re so focused on immediate results and quick fixes, ISTPs
+        often overlook the wider context. While this isn’t always an issue, it
+        can become a problem if they shut down other people’s concerns or
+        opinions about how to do things. ISTPs may find it difficult to accept
+        feedback and critique. As a result, they may diminish the opinions of
+        others. They also like a lot of alone time, so they may not always
+        follow through on projects where they need to work closely with others.
+      </p>
+      <h2>ISTPs and stress</h2>
+      <p>
+        People with ISTP preferences may find social situations stressful. They
+        dislike small talk or listening to the personal problems of people they
+        don’t know well. They also tend to avoid forced social interactions or
+        gatherings because these can make them uncomfortable. At work, people
+        with ISTP preferences get stressed when other people ignore their
+        advice, question their expertise, or dismiss their practical
+        assessments. They tend to prefer calm, quiet working environments and
+        may find loud noises and interruptions incredibly distracting. If you
+        have ISTP preferences, try these simple strategies to balance your
+        feelings during times of stress:
+      </p>
+      <ul>
+        <li>
+          Create a private workspace where you can easily get into the zone.
+          Make sure others know that you require a calm, quiet place to work in
+          order to produce the best results.
+        </li>
+        <li>
+          Try to explain your views in a clear, logical way that other people
+          can easily follow. You may find it helpful to make notes to plan what
+          you’re going to say. This will help others understand what you’re
+          saying and make it easier to get them on board with your ideas.
+        </li>
+        <li>
+          Don’t force yourself to socialize if you’re not feeling up to it. It’s
+          OK to politely decline an offer.
+        </li>
+      </ul>
+    </div>
+  </main>
+</div>
+{% endif %} {% endblock %}

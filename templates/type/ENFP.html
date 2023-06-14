@@ -1,0 +1,113 @@
+{% extends 'base.html' %} {% block head %}
+<title>
+  Post to Personality | Get a Personality type from a Reddit account
+</title>
+{% endblock %} {% block body %} {% if reddit_user_info %}
+<div class="container" data-barba="container" data-barba-namespace="result">
+  <a href="{{ url_for('index') }}" class="button"
+    ><img src="/static/images/Arrow_Right_MD.svg" alt="Left arrow" />Back to
+    home page</a
+  >
+  <main>
+    <div class="card">
+      <div class="card__type">
+        <span>E</span>
+        <span>N</span>
+        <span>F</span>
+        <span>P</span>
+      </div>
+      <img
+        src="{{ reddit_user_info.avatar }}"
+        alt="Reddit Avatar"
+        class="reddit_avatar"
+        height="262"
+      />
+      <div class="card__content">
+        <h2 class="card__title">
+          <strong>{{ reddit_user_info.username }}</strong>
+        </h2>
+        <h3>The imaginative motivator</h3>
+        <p class="card__text">
+          <img src="/static/images/icons8-stars.svg" alt="Star icon" /><strong
+            >Karma : </strong
+          >{{ reddit_user_info.karma }}
+        </p>
+        <p class="card__text">
+          <img src="/static/images/icons8-cake.svg" alt="Cake icon" /><strong>
+            Cake day : </strong
+          >{{ reddit_user_info.member_since }}
+        </p>
+      </div>
+    </div>
+    <div class="share">
+      <div class="share__wrapper">
+        <p>Share</p>
+        <div class="share__icons">
+          <a href="#" class="share__icon"
+            ><img src="/static/images/facebook.svg" alt=""
+          /></a>
+          <a href="" class="share__icon"
+            ><img src="/static/images/Twitter.svg" alt=""
+          /></a>
+          <a href="#" class="share__icon"
+            ><img src="/static/images/LinkedIn.svg" alt=""
+          /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>ENFP strengths and weaknesses</h1>
+      <p></p>
+      <h2>ENFPs at their best</h2>
+      <p>
+        At their best, ENFPs are inspiring visionaries and natural leaders.
+        They’re often excited by life, no matter what it brings their way.
+        People with ENFP preferences can easily shift and adapt to new
+        challenges. Rather than becoming stressed or overwhelmed by new people
+        or situations, they are inspired by new points of view and love to rise
+        to the occasion. ENFPs are also inspiring to others, with the result
+        that they often become leaders at work or in their personal lives.
+      </p>
+      <h2>Potential development areas for ENFPs</h2>
+      <p>
+        Their zest for life makes ENFPs fun to be around, but this also means
+        they’re prone to extreme emotions—especially when they’re stressed. They
+        have a tendency to overcommit themselves in their excitement to take on
+        new challenges. This may lead to them abandoning projects, struggling to
+        prioritize, or burning out.
+      </p>
+      <h2>ENFPs and stress</h2>
+      <p>
+        People with ENFP preferences tend to have big personalities. They may
+        also display frequent and dramatic changes in emotion. ENFPs are likely
+        to become overwhelmed if they’re forced to make a decision before
+        they’re ready or commit to long-term plans they don’t agree with. They
+        get stressed when deadlines interfere with their creative process, or
+        when rules impose on their personal relationships. If you have ENFP
+        preferences, try these simple strategies to balance your feelings during
+        times of stress:
+      </p>
+      <ul>
+        <li>
+          Set realistic, manageable deadlines. Although you’d prefer not to have
+          a deadline at all, sometimes they’re unavoidable. If you’re aware of a
+          deadline well ahead of time, you can take steps to ready yourself
+          before it comes up.
+        </li>
+        <li>
+          Make time to experiment with new projects. Instead of committing to
+          every interesting project and bouncing between them, dedicate some
+          time to trying new things and being creative. This will help you worry
+          less about those other, more regimented tasks.
+        </li>
+        <li>
+          Be open about your goals and expectations for your relationships.
+          Don’t commit to restrictive relationships that you won’t be able to
+          uphold. Avoid stress for yourself (and others) by making it clear that
+          you need a lot of free time and minimal commitments.
+        </li>
+      </ul>
+    </div>
+  </main>
+</div>
+{% endif %} {% endblock %}

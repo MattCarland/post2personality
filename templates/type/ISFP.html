@@ -1,0 +1,114 @@
+{% extends 'base.html' %} {% block head %}
+<title>
+  Post to Personality | Get a Personality type from a Reddit account
+</title>
+{% endblock %} {% block body %} {% if reddit_user_info %}
+<div class="container" data-barba="container" data-barba-namespace="result">
+  <a href="{{ url_for('index') }}" class="button"
+    ><img src="/static/images/Arrow_Right_MD.svg" alt="Left arrow" />Back to
+    home page</a
+  >
+  <main>
+    <div class="card">
+      <div class="card__type">
+        <span>I</span>
+        <span>S</span>
+        <span>F</span>
+        <span>P</span>
+      </div>
+      <img
+        src="{{ reddit_user_info.avatar }}"
+        alt="Reddit Avatar"
+        class="reddit_avatar"
+        height="262"
+      />
+      <div class="card__content">
+        <h2 class="card__title">
+          <strong>{{ reddit_user_info.username }}</strong>
+        </h2>
+        <h3>The versatile supporter</h3>
+        <p class="card__text">
+          <img src="/static/images/icons8-stars.svg" alt="Star icon" /><strong
+            >Karma : </strong
+          >{{ reddit_user_info.karma }}
+        </p>
+        <p class="card__text">
+          <img src="/static/images/icons8-cake.svg" alt="Cake icon" /><strong>
+            Cake day : </strong
+          >{{ reddit_user_info.member_since }}
+        </p>
+      </div>
+    </div>
+    <div class="share">
+      <div class="share__wrapper">
+        <p>Share</p>
+        <div class="share__icons">
+          <a href="#" class="share__icon"
+            ><img src="/static/images/facebook.svg" alt=""
+          /></a>
+          <a href="" class="share__icon"
+            ><img src="/static/images/Twitter.svg" alt=""
+          /></a>
+          <a href="#" class="share__icon"
+            ><img src="/static/images/LinkedIn.svg" alt=""
+          /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>ISFP strengths and weaknesses</h1>
+      <p></p>
+      <h2>ISFPs at their best</h2>
+      <p>
+        People with ISFP preferences enjoy facilitating meetings between
+        like-minded people. They prefer to shine the spotlight on others rather
+        than taking center stage themselves. They like to find and explore
+        similarities and commonalities between even the most diverse groups of
+        people, and they treat others with kindness and consideration. ISFPs are
+        good at anticipating the needs of others. While they enjoy helping
+        others, they have little interest in controlling or influencing other
+        people’s decisions.
+      </p>
+      <h2>Potential development areas for ISFPs</h2>
+      <p>
+        While ISFPs tend to be deeply caring and considerate, their desire for
+        freedom can make them seem a bit unreliable or indecisive to others
+        sometimes—especially when they’re under stress. Their unassertive nature
+        means that ISFPs might not handle criticism well. They may even
+        internalize negative feedback and see it as a personal attack. And,
+        because they’re often hesitant to share their own accomplishments, they
+        might be disappointed when others don’t notice them.
+      </p>
+      <h2>ISFPs and stress</h2>
+      <p>
+        People with ISFP preferences feel stressed when others dismiss how they
+        feel or disregard their experiences. They don’t like being interrupted
+        or feeling pressured at work, and they generally feel stressed when
+        they’re asked to stick to a strict schedule or meet a demanding
+        deadline. Generally, ISFPs are likely to get stressed if they feel that
+        too much is happening at once and they can’t give everyone and
+        everything the attention it deserves. If you have ISFP preferences, try
+        these simple strategies to balance your feelings during times of stress:
+      </p>
+      <ul>
+        <li>
+          Focus on meeting your own needs and practicing self-care. Take a step
+          back and spend some time alone to help you do this; otherwise, you may
+          focus so much on what others are feeling that you ignore or neglect
+          your own needs.
+        </li>
+        <li>
+          Don’t commit to too many social activities or work responsibilities
+          when you’re stressed. Although these might seem like a distraction at
+          first, they will likely make you feel more stressed.
+        </li>
+        <li>
+          Take steps to deal with conflict in a straightforward manner. Avoiding
+          conflict can cause more stress in the long run. It’s often better to
+          talk things out straightaway and resolve any issues.
+        </li>
+      </ul>
+    </div>
+  </main>
+</div>
+{% endif %} {% endblock %}

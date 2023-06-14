@@ -31,9 +31,7 @@ def index():
 
     if request.method == 'POST':
         field_content = request.form.get('content') # get content from form
-        # reddit_comments = reddit_api_data.get_comments(field_content) # get user comments from Reddit API
-        # reddit_comments.to_csv('data/comments.csv', index=False)
-        numpy.random.RandomState(42)
+
         try:
             reddit_user_info = reddit_api_data.get_user_infos(field_content) # get user info from Reddit API
             print(type(field_content))
@@ -43,9 +41,8 @@ def index():
             print("df_pred_pp loaded")
             df_pred_list = prediction_vectorize(df_pred_pp) # vectorize the comments
             print("df_pred_list loaded")
-            prediction = predict_model(texts = df_pred_list, verbose = True) # predict the comments
-            print("******************")
-            print("-----------------", prediction['type_prediction'])
+            prediction = predict_model(texts = df_pred_list, verbose = False)
+            prediction = prediction['type_prediction']
 
             if reddit_user_info is not None:
                 # Redirect to the result page with the reddit_user_info as a parameter

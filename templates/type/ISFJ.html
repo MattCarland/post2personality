@@ -1,0 +1,111 @@
+{% extends 'base.html' %} {% block head %}
+<title>
+  Post to Personality | Get a Personality type from a Reddit account
+</title>
+{% endblock %} {% block body %} {% if reddit_user_info %}
+<div class="container" data-barba="container" data-barba-namespace="result">
+  <a href="{{ url_for('index') }}" class="button"
+    ><img src="/static/images/Arrow_Right_MD.svg" alt="Left arrow" />Back to
+    home page</a
+  >
+  <main>
+    <div class="card">
+      <div class="card__type">
+        <span>I</span>
+        <span>S</span>
+        <span>F</span>
+        <span>J</span>
+      </div>
+      <img
+        src="{{ reddit_user_info.avatar }}"
+        alt="Reddit Avatar"
+        class="reddit_avatar"
+        height="262"
+      />
+      <div class="card__content">
+        <h2 class="card__title">
+          <strong>{{ reddit_user_info.username }}</strong>
+        </h2>
+        <h3>The practical helper</h3>
+        <p class="card__text">
+          <img src="/static/images/icons8-stars.svg" alt="Star icon" /><strong
+            >Karma : </strong
+          >{{ reddit_user_info.karma }}
+        </p>
+        <p class="card__text">
+          <img src="/static/images/icons8-cake.svg" alt="Cake icon" /><strong>
+            Cake day : </strong
+          >{{ reddit_user_info.member_since }}
+        </p>
+      </div>
+    </div>
+    <div class="share">
+      <div class="share__wrapper">
+        <p>Share</p>
+        <div class="share__icons">
+          <a href="#" class="share__icon"
+            ><img src="/static/images/facebook.svg" alt=""
+          /></a>
+          <a href="" class="share__icon"
+            ><img src="/static/images/Twitter.svg" alt=""
+          /></a>
+          <a href="#" class="share__icon"
+            ><img src="/static/images/LinkedIn.svg" alt=""
+          /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>ISFJ strengths and weaknesses</h1>
+      <p></p>
+      <h2>ISFJs at their best</h2>
+      <p>
+        People with ISFJ preferences are caring and considerate. At their best,
+        they are able to sense the needs of others and figure out exactly how to
+        help them. This is something other people tend to love about ISFJs. Some
+        people may feel drained if they’re frequently asked for help, but ISFJs
+        find purpose and fulfilment when others need them in this way. Practical
+        and resourceful, ISFJs are particularly good in a crisis.
+      </p>
+      <h2>Potential development areas for ISFJs</h2>
+      <p>
+        People with ISFJ preferences may be too eager to please others and may
+        wear themselves down as a result. They’re very aware of other people
+        taking them for granted. When they sense this kind of behavior, they
+        tend to shut down or become pessimistic. ISFJs may have a hard time with
+        confrontation, so they tend to avoid conflict rather than addressing
+        issues directly.
+      </p>
+      <h2>ISFJs and stress</h2>
+      <p>
+        People with ISFJ preferences tend to be sensitive to the behavior of
+        others. They may find it stressful to see other people behaving in an
+        unkind or unfair way. They’re also likely to be stressed by frequent
+        disruptions, or by feeling like there is too much going on at one time.
+        ISFJs tend to dislike conflict. Arguments and confrontations are likely
+        to be very stressful for them—especially if they feel that their values
+        or morals are being challenged. If you have ISFJ preferences, try these
+        simple strategies to balance your feelings during times of stress:
+      </p>
+      <ul>
+        <li>
+          Remember, it’s OK for other people to have different views and
+          opinions. This doesn’t make them unkind or bad people. Rather than
+          letting differing viewpoints stress you out, try to think of them as
+          an opportunity to broaden your horizons.
+        </li>
+        <li>
+          Stand up for yourself more. Because you tend to avoid confrontation,
+          you might not tell someone when you find their behavior stressful. Try
+          politely asking someone to stop or change behaviors you find
+          stressful, or set boundaries for yourself to help minimize stress.
+        </li>
+        <li>
+          Create an inspiring workspace where you can hide from distractions.
+          This will help you concentrate and prevent overstimulation.
+        </li>
+      </ul>
+    </div>
+  </main>
+</div>
+{% endif %} {% endblock %}

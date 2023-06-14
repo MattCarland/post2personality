@@ -1,0 +1,114 @@
+{% extends 'base.html' %} {% block head %}
+<title>
+  Post to Personality | Get a Personality type from a Reddit account
+</title>
+{% endblock %} {% block body %} {% if reddit_user_info %}
+<div class="container" data-barba="container" data-barba-namespace="result">
+  <a href="{{ url_for('index') }}" class="button"
+    ><img src="/static/images/Arrow_Right_MD.svg" alt="Left arrow" />Back to
+    home page</a
+  >
+  <main>
+    <div class="card">
+      <div class="card__type">
+        <span>E</span>
+        <span>S</span>
+        <span>T</span>
+        <span>J</span>
+      </div>
+      <img
+        src="{{ reddit_user_info.avatar }}"
+        alt="Reddit Avatar"
+        class="reddit_avatar"
+        height="262"
+      />
+      <div class="card__content">
+        <h2 class="card__title">
+          <strong>{{ reddit_user_info.username }}</strong>
+        </h2>
+        <h3>The efficient organizer</h3>
+        <p class="card__text">
+          <img src="/static/images/icons8-stars.svg" alt="Star icon" /><strong
+            >Karma : </strong
+          >{{ reddit_user_info.karma }}
+        </p>
+        <p class="card__text">
+          <img src="/static/images/icons8-cake.svg" alt="Cake icon" /><strong>
+            Cake day : </strong
+          >{{ reddit_user_info.member_since }}
+        </p>
+      </div>
+    </div>
+    <div class="share">
+      <div class="share__wrapper">
+        <p>Share</p>
+        <div class="share__icons">
+          <a href="#" class="share__icon"
+            ><img src="/static/images/facebook.svg" alt=""
+          /></a>
+          <a href="" class="share__icon"
+            ><img src="/static/images/Twitter.svg" alt=""
+          /></a>
+          <a href="#" class="share__icon"
+            ><img src="/static/images/LinkedIn.svg" alt=""
+          /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>ESTJ strengths and weaknesses</h1>
+      <p></p>
+      <h2>ESTJs at their best</h2>
+      <p>
+        ESTJs are natural leaders. Their analytical, data-driven minds and
+        outgoing personalities mean they can often complete even the most
+        difficult tasks with ease. When they put their faith in other people, it
+        tends to motivate them to do their best as well. People with ESTJ
+        preferences are incredibly driven to meet their own goals. If you need a
+        friend or colleague to get something done, do it right, and complete it
+        to schedule, speak to someone with ESTJ preferences!
+      </p>
+      <h2>Potential development areas for ESTJs</h2>
+      <p>
+        People with ESTJ preferences are often so matter-of-fact that they may
+        come across to others as brash or unfeeling. They put so much emphasis
+        on logic, numbers, and facts, that they sometimes forget that other
+        people may have different values or different opinions about what’s most
+        important. ESTJs can often improve their communication by focusing on
+        building trusted relationships, instead of taking charge and giving
+        orders.
+      </p>
+      <h2>ESTJs and stress</h2>
+      <p>
+        ESTJs dislike uncertainly, inefficiency, being challenged, or having
+        their opinions dismissed. They tend to feel the most stress when they’re
+        unable to control the world around them. They prefer a workplace with
+        set systems and structures in place, and may find it stressful to work
+        with people they see as incompetent or disorganized. If you have ESTJ
+        preferences, try these simple strategies to balance your feelings during
+        times of stress:
+      </p>
+      <ul>
+        <li>
+          Create your own schedule or workflow system instead of trying to force
+          one on others. If that’s how you work best, remember that you can only
+          control your own actions.
+        </li>
+        <li>
+          Remind yourself that people have different talents. Try to set people
+          up for success rather than failure.
+        </li>
+        <li>
+          Create a relaxing, clutter-free workspace away from stressful
+          distractions.
+        </li>
+        <li>
+          Practice patience with people who move at a different pace than you.
+          These people might be more cautious or thoughtful than you are. Their
+          slower pace doesn’t mean they’re incompetent.
+        </li>
+      </ul>
+    </div>
+  </main>
+</div>
+{% endif %} {% endblock %}

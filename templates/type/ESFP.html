@@ -1,0 +1,111 @@
+{% extends 'base.html' %} {% block head %}
+<title>
+  Post to Personality | Get a Personality type from a Reddit account
+</title>
+{% endblock %} {% block body %} {% if reddit_user_info %}
+<div class="container" data-barba="container" data-barba-namespace="result">
+  <a href="{{ url_for('index') }}" class="button"
+    ><img src="/static/images/Arrow_Right_MD.svg" alt="Left arrow" />Back to
+    home page</a
+  >
+  <main>
+    <div class="card">
+      <div class="card__type">
+        <span>E</span>
+        <span>S</span>
+        <span>F</span>
+        <span>P</span>
+      </div>
+      <img
+        src="{{ reddit_user_info.avatar }}"
+        alt="Reddit Avatar"
+        class="reddit_avatar"
+        height="262"
+      />
+      <div class="card__content">
+        <h2 class="card__title">
+          <strong>{{ reddit_user_info.username }}</strong>
+        </h2>
+        <h3>The enthusiastic improvisor</h3>
+        <p class="card__text">
+          <img src="/static/images/icons8-stars.svg" alt="Star icon" /><strong
+            >Karma : </strong
+          >{{ reddit_user_info.karma }}
+        </p>
+        <p class="card__text">
+          <img src="/static/images/icons8-cake.svg" alt="Cake icon" /><strong>
+            Cake day : </strong
+          >{{ reddit_user_info.member_since }}
+        </p>
+      </div>
+    </div>
+    <div class="share">
+      <div class="share__wrapper">
+        <p>Share</p>
+        <div class="share__icons">
+          <a href="#" class="share__icon"
+            ><img src="/static/images/facebook.svg" alt=""
+          /></a>
+          <a href="" class="share__icon"
+            ><img src="/static/images/Twitter.svg" alt=""
+          /></a>
+          <a href="#" class="share__icon"
+            ><img src="/static/images/LinkedIn.svg" alt=""
+          /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>ENFP strengths and weaknesses</h1>
+      <p></p>
+      <h2>ESFPs at their best</h2>
+      <p>
+        People love ESFPs—and ESFPs love people. They’re likely incredibly
+        social and outgoing, and they tend to know exactly what others need in
+        the moment. In fact, they often live in the moment. They love trying new
+        things, taking trips, and experimenting with different majors or
+        careers. People with ESFP preferences tend to thrive when they’re in a
+        group. They love to share experiences with other people—whether in their
+        personal lives or their work environment.
+      </p>
+      <h2>Potential development areas for ESFPs</h2>
+      <p>
+        ESFPs have a lust for life. They often get distracted by new things,
+        causing them to abandon existing obligations. It can be difficult for
+        ESFPs to stay focused or commit to any one path, which may give them a
+        reputation for being flighty or unreliable. They also tend to experience
+        anxiety about these behaviors because they don’t want to let other
+        people down—so it can become a bit of a cycle.
+      </p>
+      <h2>ESFPs and stress</h2>
+      <p>
+        People with ESFP preferences get stressed when they have too many plans
+        or too much structure. They much prefer the freedom to adapt and be
+        spontaneous. They don’t like being forced to make decisions, and they
+        may feel stressed when others analyze their thoughts or behaviors.
+        Things like data and financial information tend to overwhelm ESFPs, and
+        abstract information or concepts can cause them to feel stress at work.
+        If you have ESFP preferences, try these simple strategies to balance
+        your feelings during times of stress:
+      </p>
+      <ul>
+        <li>
+          Take the time to consider what you want out of life and the steps it
+          will take to get there. While you’re typically noncommittal, you’ll
+          probably feel stressed if you don’t have an overarching purpose in
+          life. It helps to keep striving toward a larger goal.
+        </li>
+        <li>
+          Set a schedule. To avoid disappointing others or overexerting
+          yourself, create a rough schedule that allows for plenty of free time.
+        </li>
+        <li>
+          Don’t commit to plans you can’t keep. It’s OK to say no to plans
+          you’re not fully invested in. It’s better to avoid activities you
+          don’t enjoy rather than cancelling at the last minute.
+        </li>
+      </ul>
+    </div>
+  </main>
+</div>
+{% endif %} {% endblock %}

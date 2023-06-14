@@ -1,0 +1,117 @@
+{% extends 'base.html' %} {% block head %}
+<title>
+  Post to Personality | Get a Personality type from a Reddit account
+</title>
+{% endblock %} {% block body %} {% if reddit_user_info %}
+<div class="container" data-barba="container" data-barba-namespace="result">
+  <a href="{{ url_for('index') }}" class="button"
+    ><img src="/static/images/Arrow_Right_MD.svg" alt="Left arrow" />Back to
+    home page</a
+  >
+  <main>
+    <div class="card">
+      <div class="card__type">
+        <span>E</span>
+        <span>S</span>
+        <span>T</span>
+        <span>P</span>
+      </div>
+      <img
+        src="{{ reddit_user_info.avatar }}"
+        alt="Reddit Avatar"
+        class="reddit_avatar"
+        height="262"
+      />
+      <div class="card__content">
+        <h2 class="card__title">
+          <strong>{{ reddit_user_info.username }}</strong>
+        </h2>
+        <h3>The energetic problem solver</h3>
+        <p class="card__text">
+          <img src="/static/images/icons8-stars.svg" alt="Star icon" /><strong
+            >Karma : </strong
+          >{{ reddit_user_info.karma }}
+        </p>
+        <p class="card__text">
+          <img src="/static/images/icons8-cake.svg" alt="Cake icon" /><strong>
+            Cake day : </strong
+          >{{ reddit_user_info.member_since }}
+        </p>
+      </div>
+    </div>
+    <div class="share">
+      <div class="share__wrapper">
+        <p>Share</p>
+        <div class="share__icons">
+          <a href="#" class="share__icon"
+            ><img src="/static/images/facebook.svg" alt=""
+          /></a>
+          <a href="" class="share__icon"
+            ><img src="/static/images/Twitter.svg" alt=""
+          /></a>
+          <a href="#" class="share__icon"
+            ><img src="/static/images/LinkedIn.svg" alt=""
+          /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>ESTP strengths and weaknesses</h1>
+      <p></p>
+      <h2>ESTPs at their best</h2>
+      <p>
+        ESTPs are inventive, innovative, and sometimes quite disruptive! They
+        often have big ideas, and they tend to shun authority so that they can
+        implement these ideas on their own and in their own way. They may even
+        maneuver around established structures on the way, creating space for
+        further innovations and fresh new approaches. People with ESTP
+        preferences are often able to read other people. As a result, they may
+        know what to say to get their way. They are also incredibly
+        self-reliant, so they don’t often worry about what other people think of
+        them.
+      </p>
+      <h2>Potential development areas for ESTPs</h2>
+      <p>
+        People with ESTP preferences might have difficulty managing their time
+        effectively. They are often so immersed in immediate problems and
+        situations that there’s a risk they will miss longer-term problems.
+        Because they prefer a short-term focus, they may well lose interest in
+        long, complex projects.
+      </p>
+      <h2>ESTPs and stress</h2>
+      <p>
+        People with ESTP preferences find it stressful when other people ignore
+        their input or advice. Inefficiencies and isolation tend to cause stress
+        for them. They also dislike having to make plans or explain to others
+        how to do things—they’d much rather just jump into action. Socially,
+        ESTPs can be stressed by subtle hints or clues. They prefer people to be
+        direct and to the point, so they’ll likely get frustrated if they’re
+        expected to notice things that aren’t clearly communicated. If you have
+        ESTP preferences, try these simple strategies to balance your feelings
+        during times of stress:
+      </p>
+      <ul>
+        <li>
+          Pay attention subtle or nonverbal communication from others. While you
+          tend to communicate directly and don’t shy away from confrontation,
+          others may be less direct. Look out for this both at work and in your
+          personal relationships.
+        </li>
+        <li>
+          Avoid putting yourself in situations where others might micromanage
+          you or impose lots of deadlines on your work. People with ESTP
+          preferences tend to thrive in situations that provide the freedom to
+          experiment. It may be difficult to avoid these stressors in a
+          traditional or hierarchical work setting.
+        </li>
+        <li>
+          Consider ways to ask other people for things without manipulating or
+          coercing them. While it’s OK to observe others to best understand what
+          motivates them, you may irritate friends and colleagues if it seems
+          like you’re using them.
+        </li>
+      </ul>
+    </div>
+  </main>
+</div>
+{% endif %} {% endblock %}

@@ -1,0 +1,114 @@
+{% extends 'base.html' %} {% block head %}
+<title>
+  Post to Personality | Get a Personality type from a Reddit account
+</title>
+{% endblock %} {% block body %} {% if reddit_user_info %}
+<div class="container" data-barba="container" data-barba-namespace="result">
+  <a href="{{ url_for('index') }}" class="button"
+    ><img src="/static/images/Arrow_Right_MD.svg" alt="Left arrow" />Back to
+    home page</a
+  >
+  <main>
+    <div class="card">
+      <div class="card__type">
+        <span>E</span>
+        <span>N</span>
+        <span>T</span>
+        <span>P</span>
+      </div>
+      <img
+        src="{{ reddit_user_info.avatar }}"
+        alt="Reddit Avatar"
+        class="reddit_avatar"
+        height="262"
+      />
+      <div class="card__content">
+        <h2 class="card__title">
+          <strong>{{ reddit_user_info.username }}</strong>
+        </h2>
+        <h3>The enterprising explorer</h3>
+        <p class="card__text">
+          <img src="/static/images/icons8-stars.svg" alt="Star icon" /><strong
+            >Karma : </strong
+          >{{ reddit_user_info.karma }}
+        </p>
+        <p class="card__text">
+          <img src="/static/images/icons8-cake.svg" alt="Cake icon" /><strong>
+            Cake day : </strong
+          >{{ reddit_user_info.member_since }}
+        </p>
+      </div>
+    </div>
+    <div class="share">
+      <div class="share__wrapper">
+        <p>Share</p>
+        <div class="share__icons">
+          <a href="#" class="share__icon"
+            ><img src="/static/images/facebook.svg" alt=""
+          /></a>
+          <a href="" class="share__icon"
+            ><img src="/static/images/Twitter.svg" alt=""
+          /></a>
+          <a href="#" class="share__icon"
+            ><img src="/static/images/LinkedIn.svg" alt=""
+          /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>ENTP strengths and weaknesses</h1>
+      <p></p>
+      <h2>ENTPs at their best</h2>
+      <p>
+        ENTPs are innovative thinkers and natural problem solvers. They have a
+        lively, enthusiastic way of communicating their thoughts and ideas which
+        will often draw other people to them. While ENTPs are usually assertive
+        about their values and beliefs, they tend to lead by doing rather than
+        giving orders or making demands of other people. They are often
+        described as enigmatic, resourceful, and inspiring.
+      </p>
+      <h2>Potential development areas for ENTPs</h2>
+      <p>
+        People with ENTP preferences generally take a resourceful and motivated
+        approach to everything they do. As a result, they may be hard on people
+        they see as incompetent or unmotivated in an effort to drive them to
+        greater things. However, this can have the opposite effect, causing the
+        other person to withdraw or feel defeated. ENTPs tend to worry too much
+        when they’re stressed. Problems they can’t solve are likely to be very
+        upsetting for them.
+      </p>
+      <h2>ENTPs and stress</h2>
+      <p>
+        Routine and monotony are often stressful for people with ENTP
+        preferences. They likely crave new situations and new challenges, and
+        don’t tend to thrive in careers or lifestyles that have the same
+        schedule every day. Boring tasks and other people’s personal problems
+        can also make them feel restless. Under stress, ENTPs tend to throw time
+        and energy into their work. This can backfire if stress causes them to
+        make mistakes or otherwise create more work for themselves. If you have
+        ENTP preferences, try these simple strategies to balance your feelings
+        during times of stress:
+      </p>
+      <ul>
+        <li>
+          Learn to take a break from work when you're feeling stressed. It's
+          important to step away when you're not in the best headspace. Remind
+          yourself that you’ll do better when you’re fresh and well rested.
+        </li>
+        <li>
+          Try something new every day. If you feel like you’re in a rut, pick up
+          a new hobby or find a new way to approach a task you have to do
+          anyway. This will challenge your mind and may stop you feeling like
+          you’re stuck in a loop.
+        </li>
+        <li>
+          Take a step back and remove yourself from other people’s personal
+          problems. Your instinct may be to try and solve the problem (and you
+          may get upset if you can't). Remember that sometimes people just want
+          you to listen.
+        </li>
+      </ul>
+    </div>
+  </main>
+</div>
+{% endif %} {% endblock %}

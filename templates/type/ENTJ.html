@@ -1,0 +1,114 @@
+{% extends 'base.html' %} {% block head %}
+<title>
+  Post to Personality | Get a Personality type from a Reddit account
+</title>
+{% endblock %} {% block body %} {% if reddit_user_info %}
+<div class="container" data-barba="container" data-barba-namespace="result">
+  <a href="{{ url_for('index') }}" class="button"
+    ><img src="/static/images/Arrow_Right_MD.svg" alt="Left arrow" />Back to
+    home page</a
+  >
+  <main>
+    <div class="card">
+      <div class="card__type">
+        <span>E</span>
+        <span>N</span>
+        <span>T</span>
+        <span>J</span>
+      </div>
+      <img
+        src="{{ reddit_user_info.avatar }}"
+        alt="Reddit Avatar"
+        class="reddit_avatar"
+        height="262"
+      />
+      <div class="card__content">
+        <h2 class="card__title">
+          <strong>{{ reddit_user_info.username }}</strong>
+        </h2>
+        <h3>The decisive strategist</h3>
+        <p class="card__text">
+          <img src="/static/images/icons8-stars.svg" alt="Star icon" /><strong
+            >Karma : </strong
+          >{{ reddit_user_info.karma }}
+        </p>
+        <p class="card__text">
+          <img src="/static/images/icons8-cake.svg" alt="Cake icon" /><strong>
+            Cake day : </strong
+          >{{ reddit_user_info.member_since }}
+        </p>
+      </div>
+    </div>
+    <div class="share">
+      <div class="share__wrapper">
+        <p>Share</p>
+        <div class="share__icons">
+          <a href="#" class="share__icon"
+            ><img src="/static/images/facebook.svg" alt=""
+          /></a>
+          <a href="" class="share__icon"
+            ><img src="/static/images/Twitter.svg" alt=""
+          /></a>
+          <a href="#" class="share__icon"
+            ><img src="/static/images/LinkedIn.svg" alt=""
+          /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>ENTJ strengths and weaknesses</h1>
+      <p></p>
+      <h2>ENTJs at their best</h2>
+      <p>
+        People with ENTJ preferences tend to be highly ambitious. They’re often
+        able to handle stressful situations with a calm, measured head and an
+        analytical mind. At their best, ENTJs are able to lead others to
+        pragmatic decisions. Their clear-headed reasoning and quick
+        decision-making means they’re likely to thrive in leadership or
+        management roles.
+      </p>
+      <h2>Potential development areas for ENTJs</h2>
+      <p>
+        Natural decision makers, ENTJs are often focused on finding fast,
+        precise solutions rather than hearing different sides or exploring the
+        nuances of a situation. They may be prone to rigidity and
+        single-mindedness, which could lead to conflict in a team or group. If
+        you’re looking to develop yourself, remind yourself to hear all sides
+        and consider other solutions to a problem.
+      </p>
+      <h2>ENTJs and stress</h2>
+      <p>
+        ENTJs tend to be both logical and pragmatic. Anything that doesn’t fit
+        these characteristics—such as misinformation, inefficiency, or
+        disorganization—is likely to cause stress for them. They may become
+        anxious if they feel like they don’t have control of the situation in
+        front of them. ENTJs are often most at ease in positions of power that
+        allow them to make logical decisions quickly and efficiently. They may
+        get upset if other people challenge their competence or question their
+        decisions. If you have ENTJ preferences, try these simple strategies to
+        balance your feelings during times of stress:
+      </p>
+      <ul>
+        <li>
+          Learn to identify the areas of a situation that are within your
+          control, and those that aren’t. Focus your attention on the things you
+          have direct control over.
+        </li>
+        <li>
+          Listen to the opinions of others and take a moment to consider the
+          validity of their points of view. Other people might know more than
+          you on a particular subject, and their expertise may help you to make
+          the right decision.
+        </li>
+        <li>
+          When someone seems to question your decision, pause for a moment.
+          Don’t react immediately (you’ll probably react badly if you do).
+          Instead, consider whether your decision could be improved. If you
+          can’t see room for improvement, think about how best to explain your
+          reasoning to others.
+        </li>
+      </ul>
+    </div>
+  </main>
+</div>
+{% endif %} {% endblock %}

@@ -1,0 +1,113 @@
+{% extends 'base.html' %} {% block head %}
+<title>
+  Post to Personality | Get a Personality type from a Reddit account
+</title>
+{% endblock %} {% block body %} {% if reddit_user_info %}
+<div class="container" data-barba="container" data-barba-namespace="result">
+  <a href="{{ url_for('index') }}" class="button"
+    ><img src="/static/images/Arrow_Right_MD.svg" alt="Left arrow" />Back to
+    home page</a
+  >
+  <main>
+    <div class="card">
+      <div class="card__type">
+        <span>E</span>
+        <span>N</span>
+        <span>F</span>
+        <span>J</span>
+      </div>
+      <img
+        src="{{ reddit_user_info.avatar }}"
+        alt="Reddit Avatar"
+        class="reddit_avatar"
+        height="262"
+      />
+      <div class="card__content">
+        <h2 class="card__title">
+          <strong>{{ reddit_user_info.username }}</strong>
+        </h2>
+        <h3>The compassionate facilitator</h3>
+        <p class="card__text">
+          <img src="/static/images/icons8-stars.svg" alt="Star icon" /><strong
+            >Karma : </strong
+          >{{ reddit_user_info.karma }}
+        </p>
+        <p class="card__text">
+          <img src="/static/images/icons8-cake.svg" alt="Cake icon" /><strong>
+            Cake day : </strong
+          >{{ reddit_user_info.member_since }}
+        </p>
+      </div>
+    </div>
+    <div class="share">
+      <div class="share__wrapper">
+        <p>Share</p>
+        <div class="share__icons">
+          <a href="#" class="share__icon"
+            ><img src="/static/images/facebook.svg" alt=""
+          /></a>
+          <a href="" class="share__icon"
+            ><img src="/static/images/Twitter.svg" alt=""
+          /></a>
+          <a href="#" class="share__icon"
+            ><img src="/static/images/LinkedIn.svg" alt=""
+          /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>ENFJ strengths & weaknesses</h1>
+      <p></p>
+      <h2>ENFJs at their best</h2>
+      <p>
+        At their best, people with ENFJ preferences are encouraging leaders who
+        truly care about the people on their teams—both at work and in their
+        personal lives. They naturally infer the thoughts, feelings, and
+        motivations of others. And it’s the same for shared team or
+        organizational goals, too. ENFJs gently encourage others by speaking
+        their language and appealing to their values. This helps them smooth out
+        areas of conflict in a group.
+      </p>
+      <h2>Potential development areas for ENFJs</h2>
+      <p>
+        Despite their best intentions, ENFJs might become so focused on creating
+        or maintaining harmony that they unintentionally sweep larger issues
+        aside. Their efforts to inspire and encourage others may come across as
+        pushy or overbearing at times. To avoid overstepping boundaries, ENFJs
+        may need to take a step back from time to time and let others figure
+        things out for themselves.
+      </p>
+      <h2>ENFJs and stress</h2>
+      <p>
+        Because they’re so community minded, people with ENFJ preferences often
+        get stressed by what they see as a lack of communication in a team or
+        group. They need to feel that their ideas are being heard. Working alone
+        or with uncooperative teammates can also cause a great deal of stress,
+        as this doesn’t allow ENFJs room to brainstorm or explore the bigger
+        picture. They dislike procrastination or unexpected changes that disrupt
+        their typically structured plans. If you have ENFJ preferences, try
+        these simple strategies to balance these feelings during times of
+        stress.
+      </p>
+      <ul>
+        <li>
+          Make it clear to teammates that your lines of communication are
+          open—but be careful not to set unattainable expectations. Let people
+          come to you when they need someone to talk to.
+        </li>
+        <li>
+          Remind yourself that some disagreement is unavoidable when a group of
+          people get together. It’s not always your job to resolve conflict. Try
+          to let some things go and avoiding taking everything personally.
+        </li>
+        <li>
+          Keep tabs on your own feelings. You probably focus on other people’s
+          feelings and ambitions more than your own. Try some gentle meditation
+          to see if this helps you tap into your own feelings. And be sure to
+          speak up about anything you need.
+        </li>
+      </ul>
+    </div>
+  </main>
+</div>
+{% endif %} {% endblock %}

@@ -1,0 +1,117 @@
+{% extends 'base.html' %} {% block head %}
+<title>
+  Post to Personality | Get a Personality type from a Reddit account
+</title>
+{% endblock %} {% block body %} {% if reddit_user_info %}
+<div class="container" data-barba="container" data-barba-namespace="result">
+  <a href="{{ url_for('index') }}" class="button"
+    ><img src="/static/images/Arrow_Right_MD.svg" alt="Left arrow" />Back to
+    home page</a
+  >
+  <main>
+    <div class="card">
+      <div class="card__type">
+        <span>E</span>
+        <span>S</span>
+        <span>F</span>
+        <span>J</span>
+      </div>
+      <img
+        src="{{ reddit_user_info.avatar }}"
+        alt="Reddit Avatar"
+        class="reddit_avatar"
+        height="262"
+      />
+      <div class="card__content">
+        <h2 class="card__title">
+          <strong>{{ reddit_user_info.username }}</strong>
+        </h2>
+        <h3>The supportive contributor</h3>
+        <p class="card__text">
+          <img src="/static/images/icons8-stars.svg" alt="Star icon" /><strong
+            >Karma : </strong
+          >{{ reddit_user_info.karma }}
+        </p>
+        <p class="card__text">
+          <img src="/static/images/icons8-cake.svg" alt="Cake icon" /><strong>
+            Cake day : </strong
+          >{{ reddit_user_info.member_since }}
+        </p>
+      </div>
+    </div>
+    <div class="share">
+      <div class="share__wrapper">
+        <p>Share</p>
+        <div class="share__icons">
+          <a href="#" class="share__icon"
+            ><img src="/static/images/facebook.svg" alt=""
+          /></a>
+          <a href="" class="share__icon"
+            ><img src="/static/images/Twitter.svg" alt=""
+          /></a>
+          <a href="#" class="share__icon"
+            ><img src="/static/images/LinkedIn.svg" alt=""
+          /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>ESFJ strengths and weaknesses</h1>
+      <p></p>
+      <h2>ESFJs at their best</h2>
+      <p>
+        People with ESFJ preferences are often the caretakers of their family or
+        workplace. They tend to spend most of their time thinking about how they
+        can make other people feel special, uphold family traditions, and ensure
+        that everyone in the group gets along. In a group, they are usually the
+        person who plans activities, remembers everyone’s birthday, and keeps
+        everyone feeling like they’re a part of the group. They’re the
+        connecting link that holds everyone else together.
+      </p>
+      <h2>Potential development areas for ESFJs</h2>
+      <p>
+        Because they’re so concerned about maintaining order and closeness
+        within a group, ESFJs can sometimes push other people away. They
+        sometimes worry so much about what will happen without them that they
+        don’t give others the chance to prove themselves. Conversely, they tend
+        to get so wrapped up in the needs of others that they forget to take
+        care of themselves. This can lead to them feeling unappreciated.
+      </p>
+      <h2>ESFJs and stress</h2>
+      <p>
+        People with ESFJ preferences are traditionalists at heart. They may
+        become stressed when it feels like things are moving or changing too
+        quickly. They also dislike too much alone time and can become stressed
+        if it seems like people are growing apart or going their separate ways.
+        ESFJs tend to become worried and upset if they unintentionally hurt
+        someone’s feelings or forget an important occasion. They may be upset if
+        they feel unappreciated for the work they do for the good of the group.
+        If you’re an ESFJ personality type, you can try a few key things to
+        balance these feelings of stress.
+      </p>
+      <ul>
+        <li>
+          Give people the benefit of the doubt. If the rest of the group seems
+          disengaged or don’t seem to appreciate your efforts, it may just be
+          that they’re busy or overwhelmed.
+        </li>
+        <li>
+          Think of yourself and prioritize your own needs. While you’re a
+          natural caretaker, you need to take care of yourself as well. Practice
+          self-care to balance your care for others.
+        </li>
+        <li>
+          Learn to enjoy alone time. Instead of dwelling on the time you spend
+          alone, learn to enjoy having time for your own interests. Use the time
+          to recharge.
+        </li>
+        <li>
+          Remember that everyone has different values. Don’t try to force
+          traditions on other members of your group. Try to allow them to find
+          their own enjoyment in the time you spend together.
+        </li>
+      </ul>
+    </div>
+  </main>
+</div>
+{% endif %} {% endblock %}

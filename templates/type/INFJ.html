@@ -1,0 +1,113 @@
+{% extends 'base.html' %} {% block head %}
+<title>
+  Post to Personality | Get a Personality type from a Reddit account
+</title>
+{% endblock %} {% block body %} {% if reddit_user_info %}
+<div class="container" data-barba="container" data-barba-namespace="result">
+  <a href="{{ url_for('index') }}" class="button"
+    ><img src="/static/images/Arrow_Right_MD.svg" alt="Left arrow" />Back to
+    home page</a
+  >
+  <main>
+    <div class="card">
+      <div class="card__type">
+        <span>I</span>
+        <span>N</span>
+        <span>F</span>
+        <span>J</span>
+      </div>
+      <img
+        src="{{ reddit_user_info.avatar }}"
+        alt="Reddit Avatar"
+        class="reddit_avatar"
+        height="262"
+      />
+      <div class="card__content">
+        <h2 class="card__title">
+          <strong>{{ reddit_user_info.username }}</strong>
+        </h2>
+        <h3>The insightful visionary</h3>
+        <p class="card__text">
+          <img src="/static/images/icons8-stars.svg" alt="Star icon" /><strong
+            >Karma : </strong
+          >{{ reddit_user_info.karma }}
+        </p>
+        <p class="card__text">
+          <img src="/static/images/icons8-cake.svg" alt="Cake icon" /><strong>
+            Cake day : </strong
+          >{{ reddit_user_info.member_since }}
+        </p>
+      </div>
+    </div>
+    <div class="share">
+      <div class="share__wrapper">
+        <p>Share</p>
+        <div class="share__icons">
+          <a href="#" class="share__icon"
+            ><img src="/static/images/facebook.svg" alt=""
+          /></a>
+          <a href="" class="share__icon"
+            ><img src="/static/images/Twitter.svg" alt=""
+          /></a>
+          <a href="#" class="share__icon"
+            ><img src="/static/images/LinkedIn.svg" alt=""
+          /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>INFJ strengths and weaknesses</h1>
+      <p></p>
+      <h2>INFJs at their best</h2>
+      <p>
+        People with INFJ preferences often want to change the world for the
+        better. They’re idealists; they want to make things better for those who
+        really need it, and they enjoy helping others to grow and become better
+        versions of themselves. They’re also independent and often know exactly
+        what they want to do next without needing to ask for advice or guidance.
+        INFJs tend to come across as quiet and reserved. They’re often saving
+        their energy for the people who mean the most to them, which may make
+        those who receive this energy feel special.
+      </p>
+      <h2>Potential development areas for INFJs</h2>
+      <p>
+        Because they’re so deep and sensitive, it’s easy for INFJs to get their
+        feelings hurt. Their idealism also makes them critical of others who
+        don’t seem to care as much as they do about humanitarian issues or
+        fighting injustice. This critical approach could work against them if it
+        discourages others from getting involved.
+      </p>
+      <h2>INFJs and stress</h2>
+      <p>
+        Because of their quiet, reserved nature, loud interruptions or
+        conflicting personalities can create stress for people with INFJ
+        preferences. They tend to dislike last-minute changes and repeated
+        mistakes, which they see as thoughtless or uncaring. At work, INFJs may
+        find it difficult to keep their personal feelings out of their
+        interactions with others. They’ll likely become stressed if they feel
+        unappreciated, dismissed, or ignored. If you have INFJ preferences, try
+        these simple strategies to balance your feelings during times of stress:
+         
+      </p>
+      <ul>
+        <li>
+          If you feel hurt by something someone else has said or done, take a
+          moment to consider if they actually meant to hurt you. The other
+          person might be under stress or in a rush. They most likely didn’t
+          mean to upset you.
+        </li>
+        <li>
+          Create a schedule for yourself and share it with your team. This will
+          let your colleagues know your preferred schedule and personal
+          boundaries.
+        </li>
+        <li>
+          Bring headphones to work and listen to relaxing music. If you work in
+          a loud environment, this can help you to avoid loud noises and other
+          interruptions while still being physically present and available.
+        </li>
+      </ul>
+    </div>
+  </main>
+</div>
+{% endif %} {% endblock %}

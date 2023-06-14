@@ -1,0 +1,117 @@
+{% extends 'base.html' %} {% block head %}
+<title>
+  Post to Personality | Get a Personality type from a Reddit account
+</title>
+{% endblock %} {% block body %} {% if reddit_user_info %}
+<div class="container" data-barba="container" data-barba-namespace="result">
+  <a href="{{ url_for('index') }}" class="button"
+    ><img src="/static/images/Arrow_Right_MD.svg" alt="Left arrow" />Back to
+    home page</a
+  >
+  <main>
+    <div class="card">
+      <div class="card__type">
+        <span>I</span>
+        <span>N</span>
+        <span>T</span>
+        <span>J</span>
+      </div>
+      <img
+        src="{{ reddit_user_info.avatar }}"
+        alt="Reddit Avatar"
+        class="reddit_avatar"
+        height="262"
+      />
+      <div class="card__content">
+        <h2 class="card__title">
+          <strong>{{ reddit_user_info.username }}</strong>
+        </h2>
+        <h3>The conceptual planner</h3>
+        <p class="card__text">
+          <img src="/static/images/icons8-stars.svg" alt="Star icon" /><strong
+            >Karma : </strong
+          >{{ reddit_user_info.karma }}
+        </p>
+        <p class="card__text">
+          <img src="/static/images/icons8-cake.svg" alt="Cake icon" /><strong>
+            Cake day : </strong
+          >{{ reddit_user_info.member_since }}
+        </p>
+      </div>
+    </div>
+    <div class="share">
+      <div class="share__wrapper">
+        <p>Share</p>
+        <div class="share__icons">
+          <a href="#" class="share__icon"
+            ><img src="/static/images/facebook.svg" alt=""
+          /></a>
+          <a href="" class="share__icon"
+            ><img src="/static/images/Twitter.svg" alt=""
+          /></a>
+          <a href="#" class="share__icon"
+            ><img src="/static/images/LinkedIn.svg" alt=""
+          /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>INTJ strengths and weaknesses</h1>
+      <p></p>
+      <h2>INTJs at their best</h2>
+      <p>
+        People with INTJ preferences are passionate problem solvers. But they
+        aren’t interested in simply solving a problem; they want to see how a
+        solution could solve many problems. This often carries over to their
+        personal lives, too, where INTJs are known for helping the people they
+        care about most. Independent, idealistic, and resourceful, INTJs tend to
+        keenly observe structures and systems so that they can fix them or
+        recreate them later.
+      </p>
+      <h2>Potential development areas for INTJs</h2>
+      <p>
+        INTJs tend to be fiercely independent. They may see this as a sign of
+        strength, but it can leave them stuck in their own heads, unable to see
+        what’s going on around them. In fact, people with INTJ preferences are
+        often so concerned with solving problems at work or helping the people
+        they care about that it can be difficult for them to make big changes or
+        concrete decisions in their own lives. They may find it helpful to open
+        up to a trusted friend or ask someone they admire for advice. Want to
+        build your confidence and emphasize your strengths? Take our MBTI®
+        assessment here and receive our personal development course on
+        confidence free with your purchase.
+      </p>
+      <h2>INTJs and stress</h2>
+      <p>
+        People with INTJ preferences are logical and dedicated to solving
+        problems. Anything that stands in the way of these goals is likely to
+        cause stress for them. They will likely feel uncomfortable if they don’t
+        have a set goal to strive for. INTJs may get stressed if they feel they
+        are being micromanaged, when they’re forced to talk about feelings or
+        share their plans with others, or when others procrastinate or show a
+        lack of initiative. If you have INTJ preferences, try these simple
+        strategies to balance your feelings during times of stress:
+      </p>
+      <ul>
+        <li>
+          Ask to define the goals of a project up front when working with
+          others. This way, you’ll always know what you’re working to achieve.
+          This will help you to stay on task and keep the team striving toward
+          the same thing.
+        </li>
+        <li>
+          Make it your responsibility to create a schedule or allocate jobs for
+          yourself and others. When you’re working with others who don’t require
+          as much structure as you do, this will allow you to create the system
+          you want.
+        </li>
+        <li>
+          Try to share small, meaningful thoughts and feelings more often. Doing
+          this with the people you care about will likely stop them initiating
+          big conversations about feelings when you least expect it.
+        </li>
+      </ul>
+    </div>
+  </main>
+</div>
+{% endif %} {% endblock %}

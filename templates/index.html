@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% block head %}
+<title>
+  Post to Personality | Get a Personality type from a Reddit account
+</title>
+{% endblock %} {% block body %}
+<main class="container" data-barba="container" data-barba-namespace="home">
+  <h1>Post 2 Personality</h1>
+  <h2>Personality Type based on Reddit username</h2>
+  <div class="form_container">
+    <h2>Enter a reddit username</h2>
+    <form action="/" method="POST">
+      <input type="text" class="field" name="content" />
+      <input type="submit" class="button" value="Get personality" />
+    </form>
+  </div>
+</main>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends 'base.html' %} {% block head %}
+<title>
+  Post to Personality | Get a Personality type from a Reddit account
+</title>
+{% endblock %} {% block body %} {% if reddit_user_info %}
+<div class="container" data-barba="container" data-barba-namespace="result">
+  <a href="{{ url_for('index') }}" class="button"
+    ><img src="/static/images/Arrow_Right_MD.svg" alt="Left arrow" />Back to
+    home page</a
+  >
+  <main>
+    <div class="card">
+      <div class="card__type">
+        <span>I</span>
+        <span>N</span>
+        <span>T</span>
+        <span>P</span>
+      </div>
+      <img
+        src="{{ reddit_user_info.avatar }}"
+        alt="Reddit Avatar"
+        class="reddit_avatar"
+        height="262"
+      />
+      <div class="card__content">
+        <h2 class="card__title">
+          <strong>{{ reddit_user_info.username }}</strong>
+        </h2>
+        <h3>The objective analyst</h3>
+        <p class="card__text">
+          <img src="/static/images/icons8-stars.svg" alt="Star icon" /><strong
+            >Karma : </strong
+          >{{ reddit_user_info.karma }}
+        </p>
+        <p class="card__text">
+          <img src="/static/images/icons8-cake.svg" alt="Cake icon" /><strong>
+            Cake day : </strong
+          >{{ reddit_user_info.member_since }}
+        </p>
+      </div>
+    </div>
+    <div class="share">
+      <div class="share__wrapper">
+        <p>Share</p>
+        <div class="share__icons">
+          <a href="#" class="share__icon"
+            ><img src="/static/images/facebook.svg" alt=""
+          /></a>
+          <a href="" class="share__icon"
+            ><img src="/static/images/Twitter.svg" alt=""
+          /></a>
+          <a href="#" class="share__icon"
+            ><img src="/static/images/LinkedIn.svg" alt=""
+          /></a>
+        </div>
+      </div>
+    </div>
+    <div class="content">
+      <h1>INTPs strengths and weaknesses</h1>
+      <p></p>
+      <h2>INTPs at their best</h2>
+      <p>
+        At their best, people with INTP preferences like to keep their heads
+        down and get on with their work. They have a detached way of looking at
+        problems that allows them to formulate a plan without becoming
+        overwhelmed. Some people may think INTPs are impersonal or cold, but
+        that’s not true. They simply know how to separate their work from their
+        personal feelings to get the job done. They are kind and considerate,
+        generally keeping to themselves and rarely causing conflict with others.
+      </p>
+      <h2>Potential development areas for INTPs</h2>
+      <p>
+        Others might see INTPs as work focused and detached. Although this is
+        likely to be fine in a professional setting, it can cause problems in
+        their personal lives if it seems that they don’t care or aren’t
+        interested in what other people have to say. At work, INTPs tend to
+        suggest complex and innovative solutions without much thought for how to
+        implement them. They may become frustrated if other people aren’t fully
+        on board with their plans.
+      </p>
+      <h2>ENFPs and stress</h2>
+      <p>
+        People with INTP preferences tend to focus their attention on solving
+        complex problems and analyzing details. They are likely to get stressed
+        by anything that distracts or irritates them, such as loud noises or
+        frequent interruptions. INTPs find it stressful if they are forced to
+        participate in too much socializing, small talk, or what they see as
+        frivolous activity. They may also get upset if other people dismiss
+        their ideas because they don’t fully understand them. If you have INTP
+        preferences, try these simple strategies to balance your feelings during
+        times of stress:
+      </p>
+      <ul>
+        <li>
+          Say no to social invites from friends and colleagues. It’s OK to
+          politely decline an invitation to preserve your mental health and
+          well-being.
+        </li>
+        <li>
+          Learn to communicate your ideas to others in a way they’ll understand.
+          You may find it helpful to make step-by-step notes to help you share
+          ideas in a straightforward way. At the same time, try to accept that
+          others won’t always agree with your suggestions.
+        </li>
+        <li>
+          Take steps to minimize noise and distractions in your workspace.
+          Invest in noise cancelling headphones, set your online status to
+          “away," or block out time in your calendar to focus.
+        </li>
+      </ul>
+    </div>
+  </main>
+</div>
+{% endif %} {% endblock %}
