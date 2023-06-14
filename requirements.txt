@@ -1,14 +1,11 @@
 pandas
 matplotlib
 ipdb
-seaborn
 scipy==1.10.0
 scikit-learn==1.2.1
 nltk
 textblob
 requests
 datetime
-torch
-transformers
 Flask==2.2.3
 gunicorn==20.1.0
