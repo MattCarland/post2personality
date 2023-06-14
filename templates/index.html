@@ -4,13 +4,27 @@
 </title>
 {% endblock %} {% block body %}
 <main class="container" data-barba="container" data-barba-namespace="home">
-  <h1>Post 2 Personality</h1>
-  <h2>Personality Type based on Reddit username</h2>
+  <header>
+    <div class="titles">
+      <h1>
+        Post 2 <br />
+        Personality
+      </h1>
+      <h2>
+        A social media <br />
+        personality analyzer
+      </h2>
+      <img
+        src="/static/images/Reddit_mascot.png"
+        alt="Snoo the Reddit's mascot"
+      />
+    </div>
+  </header>
   <div class="form_container">
-    <h2>Enter a reddit username</h2>
+    <h2>Enter your Reddit username</h2>
     <form action="/" method="POST">
       <input type="text" class="field" name="content" />
-      <input type="submit" class="button" value="Get personality" />
+      <input type="submit" class="button" value="Analyze my personality" />
     </form>
   </div>
 </main>
