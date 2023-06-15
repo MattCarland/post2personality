@@ -241,7 +241,7 @@ main {
   }
 }
 .share {
-  margin-top: 24px;
+  margin: 24px 0;
   display: flex;
   justify-content: flex-end;
   p {
@@ -294,5 +294,8 @@ main {
     .form_container {
       margin-top: -32px;
     }
+  }
+  .container {
+    width: 90%;
   }
 }
