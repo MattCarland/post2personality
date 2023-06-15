@@ -19,21 +19,17 @@
 # from your .gitignore file, remove the corresponding line
 
 # below:
-
 .git
 .gitignore
+.ipynb_checkpoints
+post2personality.egg-info
 
 # Python pycache:
 
 **pycache**/
 
 # Ignored by the build system
-
-/setup.cfg
-env/
-.DS_Store
-.DS_Store
+Makefile
 .env
-.envrc
-notebooks/.ipynb_checkpoints
-.ipynb
+*.csv
+.python-version

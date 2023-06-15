@@ -1,7 +1,3 @@
-*.csv
 .env
-.envrc
-.DS_Store
+*.csv
 .python-version
-.vscode
-data/prepro/*
