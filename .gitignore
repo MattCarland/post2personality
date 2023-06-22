@@ -1,3 +1,8 @@
 .env
 *.csv
 .python-version
+data/__pycache__
+model/__pycache__
+post2personality.egg-info
+.gcloudignore
+Makefile
